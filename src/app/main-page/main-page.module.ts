@@ -8,6 +8,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { EntryPageComponent } from './entry-page/entry-page.component';
+import { UserMenuComponent } from './user-menu/user-menu.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -19,6 +20,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderComponent,
     PageNotFoundComponent,
     EntryPageComponent,
+    UserMenuComponent,
   ],
   imports: [
     CommonModule,
@@ -30,5 +32,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
   ],
+  exports: [HeaderComponent]
 })
 export class MainPageModule {}

@@ -20,3 +20,9 @@ footer img {
   height: 100%;
   margin-right: 50px;
 }
+@media only screen and (max-width: 400px) {
+  footer img {
+  
+    margin-right: 2px;
+  }
+}

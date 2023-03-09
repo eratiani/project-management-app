@@ -1,0 +1,33 @@
+<app-header></app-header>
+<form  >
+    <!-- Email input -->
+    <h1 class="m-5">{{"log in to your account" | translate}}</h1>
+    <div class="form-outline mb-4">
+        <input type="text" id="form2Example1" class="form-control" />
+        <label class="form-label" for="form2Example1">{{"Your Nickname" | translate}}</label>
+        <!-- <div *ngIf="logInForm.get('nickNameInput').touched && logInForm.get('nickNameInput').hasError('required')">{{"Type Your Nickname Here" | translate}}</div> -->
+      </div>
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input type="password" id="form2Example2" class="form-control" />
+      <label class="form-label" for="form2Example2">{{"Password" | translate}}</label>
+      <!-- <div *ngIf="logInForm.get('passwordInput').touched && logInForm.get('passwordInput').hasError('required')">{{"Type Your Password Here" | translate}}</div>
+      <div *ngIf="logInForm.get('passwordInput').touched && logInForm.get('passwordInput').hasError('minlength')">{{"Minimum 8 Characters Required" | translate}}</div> -->
+    </div>
+    <!-- 2 column grid layout for inline styling -->
+    <div class="row mb-4">
+      <div class="col d-flex justify-content-center">
+        <!-- Checkbox -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="form2Example34" checked />
+          <label class="form-check-label" for="form2Example34"> {{"Remember me" | translate}} </label>
+        </div>
+      </div>
+      <div class="col">
+        <!-- Simple link -->
+      </div>
+    </div>
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block m-4" >{{"log in" | translate}}</button>
+    <a class="btn btn-primary btn-block m-4" href="Home/register">{{"register" |translate}}</a>
+  </form>
