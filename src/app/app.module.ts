@@ -5,6 +5,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BoardViewModule } from './board-view/bord-view.module';
 import { MainPageModule } from './main-page/main-page.module';
 import { UserAuthenticationModule } from './user-authentication/user-authentication.module';
 export function HttpLoaderFactory(http: HttpClient) {
@@ -16,6 +17,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     MainPageModule,
     AppRoutingModule,
+    BoardViewModule,
     UserAuthenticationModule,
     HttpClientModule,
     TranslateModule.forRoot({

@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LogOutComponent } from './log-out/log-out.component';
+import { UserUpdateComponent } from './user-update/user-update.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -16,6 +18,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     LogInComponent,
     RegisterComponent,
+    LogOutComponent,
+    UserUpdateComponent,
   ],
   imports: [
     CommonModule,

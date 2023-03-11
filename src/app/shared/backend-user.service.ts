@@ -10,7 +10,8 @@ import { UserReceived } from './user-received';
 })
 export class BackendUserService {
   private baseUrl: string;
-  constructor(private http: HttpClient) { 
+  private loggedIn:boolean = false;
+  constructor(private http: HttpClient, ) { 
     this.baseUrl = environment.apiUrl;
   }
   async registerUser(user: UserSent) {
@@ -25,6 +26,7 @@ export class BackendUserService {
   async loginUser(user: UserSent) {
     try {
       const request = await firstValueFrom(this.http.post(`${this.baseUrl}/auth/signin`, user));
+      this.loggedIn = !this.loggedIn;
       return request;
     } catch (error) {
       throw error
@@ -85,5 +87,12 @@ export class BackendUserService {
     } catch (error) {
       throw error
     }
+  }
+  isLoggedIn() {
+    return this.loggedIn;
+  }
+  logOutUser(){
+    this.loggedIn = !this.loggedIn;
+    return this.loggedIn;
   }
 }
