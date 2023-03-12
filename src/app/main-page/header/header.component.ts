@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -8,13 +8,13 @@ import { Component } from '@angular/core';
 export class HeaderComponent {
   lang: any;
 
-  constructor() {}
+  constructor(private translateService: TranslateService) {}
 
   ngOnInit(): void {
     this.lang = localStorage.getItem('lang') || 'en';
   }
   changeLang(lang: any) {
     localStorage.setItem('lang', lang.value);
-    window.location.reload();
+    this.translateService.use(lang.value);
   }
 }

@@ -9,10 +9,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LogOutComponent } from './log-out/log-out.component';
 import { UserUpdateComponent } from './user-update/user-update.component';
+import { UpdateFormComponent } from './user-update/update-form/update-form.component';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from '../app-routing.module';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
-
 
 @NgModule({
   declarations: [
@@ -20,10 +22,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     RegisterComponent,
     LogOutComponent,
     UserUpdateComponent,
+    UpdateFormComponent,
   ],
   imports: [
     CommonModule,
     MainPageModule,
+    RouterModule,
+    AppRoutingModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
@@ -32,6 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
-  ]
+  ],
+  exports: [LogOutComponent, UserUpdateComponent],
 })
-export class UserAuthenticationModule { }
+export class UserAuthenticationModule {}

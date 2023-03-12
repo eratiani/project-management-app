@@ -9,6 +9,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { EntryPageComponent } from './entry-page/entry-page.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from '../app-routing.module';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -24,6 +26,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   imports: [
     CommonModule,
+    RouterModule,
+    AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -32,6 +36,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
   ],
-  exports: [HeaderComponent]
+  exports: [HeaderComponent],
 })
 export class MainPageModule {}
