@@ -11,6 +11,7 @@ import { EntryPageComponent } from './entry-page/entry-page.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from '../app-routing.module';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }

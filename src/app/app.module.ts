@@ -8,12 +8,17 @@ import { AppComponent } from './app.component';
 import { BoardViewModule } from './board-view/bord-view.module';
 import { MainPageModule } from './main-page/main-page.module';
 import { UserAuthenticationModule } from './user-authentication/user-authentication.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    MatButtonModule,
+    MatDialogModule,
     BrowserModule,
     MainPageModule,
     AppRoutingModule,
@@ -30,5 +35,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [],
   bootstrap: [AppComponent],
+  exports: [],
 })
 export class AppModule {}

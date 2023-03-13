@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ErrorHandllingService } from 'src/app/shared/error-handlling.service';
 import { UserReceived } from 'src/app/shared/user-received';
 import { UserSent } from 'src/app/shared/user-sent';
 import { BackendUserService } from '../../shared/backend-user.service';
@@ -30,7 +31,8 @@ export class RegisterComponent {
   constructor(
     private userService: BackendUserService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private errorService: ErrorHandllingService
   ) {
     this.registerForm = formBuilder.group({
       name: ['', [Validators.required]],
@@ -48,21 +50,20 @@ export class RegisterComponent {
       const result = (await this.userService.registerUser(
         this.user
       )) as UserSent;
-      console.log(result);
 
       this.signIn(currUser);
     } catch (error) {
-      console.log(error);
+      this.errorService.generateError(error);
     }
   }
   async signIn(user: UserSent) {
     try {
       const result = await this.userService.loginUser(user);
       this.token = result as { token: string };
-      console.log(this.token);
+
       this.router.navigateByUrl('board/main');
     } catch (error) {
-      console.log(error);
+      this.errorService.generateError(error);
     }
   }
 }

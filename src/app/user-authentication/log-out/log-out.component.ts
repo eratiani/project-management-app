@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendUserService } from 'src/app/shared/backend-user.service';
+import { ErrorHandllingService } from 'src/app/shared/error-handlling.service';
 
 @Component({
   selector: 'app-log-out',
@@ -10,14 +11,15 @@ import { BackendUserService } from 'src/app/shared/backend-user.service';
 export class LogOutComponent {
   constructor(
     private userService: BackendUserService,
-    private router: Router
+    private router: Router,
+    private errorService: ErrorHandllingService
   ) {}
   logOut() {
     try {
       this.userService.logOutUser();
       this.router.navigateByUrl('Home');
     } catch (error) {
-      console.log(error);
+      this.errorService.generateError(error);
     }
   }
 }
