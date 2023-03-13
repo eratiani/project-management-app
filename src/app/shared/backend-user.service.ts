@@ -27,6 +27,8 @@ export class BackendUserService {
       const request = await firstValueFrom(
         this.http.post(`${this.baseUrl}/auth/signup`, user)
       );
+      console.log(request);
+
       return request;
     } catch (error) {
       throw error;
@@ -41,6 +43,8 @@ export class BackendUserService {
       this.loggedIn = true;
       this.token = request;
       this.setLocalUser(user, request);
+      console.log(request);
+
       return request;
     } catch (error) {
       throw error;
