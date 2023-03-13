@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendUserService } from 'src/app/shared/backend-user.service';
+import { ErrorHandllingService } from 'src/app/shared/error-handlling.service';
 import { UserSent } from 'src/app/shared/user-sent';
 
 @Component({
@@ -19,7 +20,8 @@ export class UpdateFormComponent {
   constructor(
     private userService: BackendUserService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private errorService: ErrorHandllingService
   ) {
     this.logInForm = formBuilder.group({
       name: ['', Validators.required],
@@ -38,7 +40,7 @@ export class UpdateFormComponent {
       this.token = result as { token: string };
       this.router.navigateByUrl('board/main');
     } catch (error) {
-      console.log(error);
+      this.errorService.generateError(error);
     }
   }
 }
