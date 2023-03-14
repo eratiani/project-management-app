@@ -23,7 +23,7 @@ export class LogInComponent {
     private router: Router,
     private errorService: ErrorHandllingService
   ) {
-    this.logInForm = formBuilder.group({
+    this.logInForm = this.formBuilder.group({
       login: ['', [Validators.required]],
       password: ['', [Validators.minLength(8), Validators.required]],
     });
