@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BoardMainComponent } from './board-view/board-main/board-main.component';
+import { TasksViewComponent } from './board-view/board-main/tasks-view/tasks-view.component';
 import { BoardMainGuard } from './guards/board-main.guard';
 import { EntryPageComponent } from './main-page/entry-page/entry-page.component';
 import { PageNotFoundComponent } from './main-page/page-not-found/page-not-found.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
     component: BoardMainComponent,
     canActivate: [BoardMainGuard],
   },
+  {path: "board/main/:id", component: TasksViewComponent},
   { path: '**', component: PageNotFoundComponent },
 ];
 

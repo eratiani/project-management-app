@@ -10,11 +10,12 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TasksViewComponent } from './board-main/tasks-view/tasks-view.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 @NgModule({
-  declarations: [BoardMainComponent],
+  declarations: [BoardMainComponent, TasksViewComponent],
   imports: [
     CommonModule,
     DragDropModule,

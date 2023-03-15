@@ -23,11 +23,13 @@
     [disabled]="!createBoardForm.valid" class="btn btn-primary" >create board</button></div>
 </form>
 </div>
-<div class="d-flex justify-content-center m-2">
+<div class="d-flex justify-content-center m-2" >
   <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let board of boards" cdkDrag>
-      <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-      {{board}}
+    <a (click)="goToTasks($event)" [attr.data-id]="board.id" *ngFor="let board of boards">
+    <div class="example-box"  cdkDrag>
+      <div class="example-custom-placeholder"  *cdkDragPlaceholder></div>
+      {{board.title}}
     </div>
+  </a>
   </div>
 </div>
