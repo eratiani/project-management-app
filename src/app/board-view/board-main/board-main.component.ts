@@ -3,6 +3,10 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BoardsRequestsService } from 'src/app/shared/boards-requests.service';
+import { BackendUserService } from 'src/app/shared/backend-user.service';
+import { HttpClient } from '@angular/common/http';
+import { BoardSent } from 'src/app/shared/board-sent';
+import { BoardRecieved } from 'src/app/shared/board-received';
 
 @Component({
   selector: 'app-board-main',
@@ -11,13 +15,26 @@ import { BoardsRequestsService } from 'src/app/shared/boards-requests.service';
 })
 export class BoardMainComponent {
   createBoardForm: FormGroup;
-  
-  boards:{id:number, title:string}[] = [{id:1,title:"smth"},{id:2,title:"smth2"},{id:3,title:"smth3"}]
-constructor( private formBuilder: FormBuilder, private router: Router,) {
+  private token:{token:string};
+  private currUser:string=''
+  boards:BoardRecieved[] = []
+constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router,private userService: BackendUserService, private boardService:BoardsRequestsService) {
   this.createBoardForm = this.formBuilder.group({
     title: ['', [Validators.minLength(1), Validators.required]],
   });
-}
+    this.token = this.userService.getToken();
+    setTimeout(() => {
+      this.currUser = this.userService.userLocal.login;
+    }, 1000);
+} 
+async ngOnChanges() {
+ 
+  
+ const boards = await this.getBoards(this.token) as BoardRecieved;
+ 
+ this.boards.push(boards,)
+ console.log(boards,this.boards);
+ }
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.boards, event.previousIndex, event.currentIndex);
   }
@@ -25,9 +42,15 @@ constructor( private formBuilder: FormBuilder, private router: Router,) {
     const myValue = (e.target as HTMLElement).parentElement?.getAttribute('data-id');
     this.router.navigateByUrl(`board/main/${myValue}`);
   }
-  addBoard(title:{title:string}) {
-    BoardsRequestsService.
-   return this.boards.push({title:title.title,id:2})
+  async addBoard(title:{title:string}) {
+    const user:BoardSent = {
+      title: title.title,
+    owner: this.currUser,
+    users:  [this.currUser],
+    }
+    const board = await this.boardService.setBoard(user, this.token)
   }
-
+  async getBoards(token:{token:string}) {
+    return await this.boardService.getBoards(token)
+  }
 }

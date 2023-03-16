@@ -37,6 +37,7 @@ export class BackendUserService {
 
   async loginUser(user: UserSent) {
     try {
+      
       const request = (await firstValueFrom(
         this.http.post(`${this.baseUrl}/auth/signin`, user)
       )) as { token: string };
@@ -131,6 +132,8 @@ export class BackendUserService {
     console.log(userArr);
     const userGot = userArr.filter((e) => e.login === user.login);
     this.userLocal = { ...userGot[0] };
+    console.log(this.userLocal);
+    
   }
   getToken() {
     return this.token;
