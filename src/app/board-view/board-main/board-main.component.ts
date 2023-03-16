@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BoardsRequestsService } from 'src/app/shared/boards-requests.service';
 
 @Component({
   selector: 'app-board-main',
@@ -25,7 +26,7 @@ constructor( private formBuilder: FormBuilder, private router: Router,) {
     this.router.navigateByUrl(`board/main/${myValue}`);
   }
   addBoard(title:{title:string}) {
-    
+    BoardsRequestsService.
    return this.boards.push({title:title.title,id:2})
   }
 
