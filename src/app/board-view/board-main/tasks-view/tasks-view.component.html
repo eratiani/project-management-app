@@ -1,61 +1,46 @@
-<div cdkDropListGroup>
-  <div class="example-container">
-    <h2>To do</h2>
-
-    <div
-      cdkDropList
-      [cdkDropListData]="task1"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="example-box" *ngFor="let item of task1" cdkDrag>
-        {{ item }}
-      </div>
+<div class="d-flex flex-column justify-content-between">
+  <div class="d-flex justify-content-between">
+    <app-header></app-header>
+    <div>
+      <app-log-out></app-log-out>
+      <app-user-update></app-user-update>
     </div>
   </div>
-
-  <div class="example-container">
-    <h2>Done</h2>
-
-    <div
-      cdkDropList
-      [cdkDropListData]="task2"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="example-box" *ngFor="let item of task2" cdkDrag>
-        {{ item }}
-      </div>
+  
+  <div class="d-flex justify-content-center">
+  <form
+    [formGroup]="createcolumnForm"
+    (ngSubmit)="addcolumn(createcolumnForm.value)"
+  >
+    <div class="form-outline mb-4 col-8">
+      <input
+        type="text"
+        id="form2Example1"
+        class="form-control"
+        formControlName="title"
+      />
+      <label class="form-label" for="form2Example1">{{
+        "tasks Title" | translate
+      }}</label>
     </div>
+    <div class="col-7">
+      <button
+        type="submit"
+        class="btn btn-primary btn-block m-4"
+        [disabled]="!createcolumnForm.valid"
+        class="btn btn-primary"
+      >
+        create column
+      </button>
+    </div>
+  </form>
   </div>
-
-  <div class="example-container">
-    <h2>To do</h2>
-
-    <div
-      cdkDropList
-      [cdkDropListData]="task3"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="example-box" *ngFor="let item of task3" cdkDrag>
-        {{ item }}
-      </div>
+  <div cdkDropListGroup>
+    <div class="example-container" *ngFor="let column of columns">
+      <h2>{{ column.title }}</h2>
+      <app-task></app-task>
     </div>
-  </div>
 
-  <div class="example-container">
-    <h2>Done</h2>
-
-    <div
-      cdkDropList
-      [cdkDropListData]="task4"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <div class="example-box" *ngFor="let item of task4" cdkDrag>
-        {{ item }}
-      </div>
-    </div>
+    
   </div>
 </div>

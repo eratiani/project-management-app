@@ -42,6 +42,21 @@ export class BoardsRequestsService {
       throw error;
     }
   }
+  async setCollumn(token: { token: string }, boardId: string, body:{title:string,order:number}) {
+    try {
+      const request = await firstValueFrom(
+        this.http.post(`${this.baseUrl}/boards/${boardId}/columns`,body, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+        })
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
   async setBoard(user: BoardSent, token: { token: string }) {
     try {
       const request = await firstValueFrom(
