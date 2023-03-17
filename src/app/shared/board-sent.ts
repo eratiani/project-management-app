@@ -1,5 +1,5 @@
 export interface BoardSent {
-    "title": string,
-    "owner": string,
-    "users":  string[]
-  }
+  title: string;
+  owner: string;
+  users: string[];
+}

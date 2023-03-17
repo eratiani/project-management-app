@@ -8,9 +8,8 @@ describe('EntryPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EntryPageComponent ]
-    })
-    .compileComponents();
+      declarations: [EntryPageComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EntryPageComponent);
     component = fixture.componentInstance;

@@ -11,7 +11,6 @@ export class BoardsRequestsService {
   token: any;
   constructor(private http: HttpClient) {
     this.baseUrl = environment.apiUrl;
-    
   }
   async getBoards(token: { token: string }) {
     try {
@@ -28,11 +27,23 @@ export class BoardsRequestsService {
       throw error;
     }
   }
-  
+  async getCollumns(token: { token: string }, boardId: string) {
+    try {
+      const request = await firstValueFrom(
+        this.http.get(`${this.baseUrl}/boards/${boardId}/columns`, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+        })
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
   async setBoard(user: BoardSent, token: { token: string }) {
     try {
-      console.log(user, token.token);
-
       const request = await firstValueFrom(
         this.http.post(`${this.baseUrl}/boards`, user, {
           headers: {

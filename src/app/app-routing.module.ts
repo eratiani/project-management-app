@@ -23,7 +23,11 @@ const routes: Routes = [
     component: BoardMainComponent,
     canActivate: [BoardMainGuard],
   },
-  {path: "board/main/:id", component: TasksViewComponent},
+  {
+    path: 'board/main/:id',
+    component: TasksViewComponent,
+    canActivate: [BoardMainGuard],
+  },
   { path: '**', component: PageNotFoundComponent },
 ];
 

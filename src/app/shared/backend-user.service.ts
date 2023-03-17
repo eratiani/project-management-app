@@ -27,7 +27,6 @@ export class BackendUserService {
       const request = await firstValueFrom(
         this.http.post(`${this.baseUrl}/auth/signup`, user)
       );
-      console.log(request);
 
       return request;
     } catch (error) {
@@ -37,14 +36,12 @@ export class BackendUserService {
 
   async loginUser(user: UserSent) {
     try {
-      
       const request = (await firstValueFrom(
         this.http.post(`${this.baseUrl}/auth/signin`, user)
       )) as { token: string };
       this.loggedIn = true;
       this.token = request;
       this.setLocalUser(user, request);
-      console.log(request);
 
       return request;
     } catch (error) {
@@ -86,8 +83,6 @@ export class BackendUserService {
 
   async updateUser(user: UserSent, token: { token: string }, id: string) {
     try {
-      console.log(user, token.token, id);
-
       const request = await firstValueFrom(
         this.http.put(`${this.baseUrl}/users/${id}`, user, {
           headers: {
@@ -129,11 +124,8 @@ export class BackendUserService {
       token
     )) as UserReceived[];
 
-    console.log(userArr);
     const userGot = userArr.filter((e) => e.login === user.login);
     this.userLocal = { ...userGot[0] };
-    console.log(this.userLocal);
-    
   }
   getToken() {
     return this.token;
