@@ -35,8 +35,12 @@
     </div>
   </form>
   </div>
-  <div cdkDropListGroup>
-    <div class="example-container" *ngFor="let column of columns">
+  
+    <div cdkDropList cdkDropListOrientation="horizontal" 
+    [cdkDropListData]="columns"
+    class="example-list horizontal-scrollable"
+    (cdkDropListDropped)="drop($event)">
+    <div class="example-container" *ngFor="let column of columns" cdkDrag>
       <h2>{{ column.title }}</h2>
       <app-task></app-task>
     </div>

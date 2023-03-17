@@ -1,6 +1,10 @@
 import { Component, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { BoardRecieved } from 'src/app/shared/board-received';
 import { BoardsRequestsService } from 'src/app/shared/boards-requests.service';
 import { BackendUserService } from 'src/app/shared/backend-user.service';
@@ -31,7 +35,22 @@ export class TasksViewComponent {
     });
   }
   
-  
+  drop(event:any) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
  
   async ngOnInit() {
     const id = this.getBoardId();
