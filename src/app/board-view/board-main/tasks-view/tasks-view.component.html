@@ -46,7 +46,10 @@
   >
     <div class="example-container m-2" *ngFor="let column of columns" cdkDrag>
       <h2>{{ column.title }}</h2>
-      <app-task></app-task>
+      <app-task
+        [boardId]="column.boardId"
+        [columnId]="column['_id']"
+      ></app-task>
     </div>
   </div>
 </div>

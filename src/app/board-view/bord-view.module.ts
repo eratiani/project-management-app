@@ -13,6 +13,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TasksViewComponent } from './board-main/tasks-view/tasks-view.component';
 import { TaskComponent } from './board-main/tasks-view/task/task.component';
 import { GenerateTaskFormComponent } from './board-main/tasks-view/task/generate-task-form/generate-task-form.component';
+import { PopupFormComponent } from './board-main/tasks-view/popup-form/popup-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -22,9 +25,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     TasksViewComponent,
     TaskComponent,
     GenerateTaskFormComponent,
+    PopupFormComponent,
   ],
   imports: [
     CommonModule,
+    MatDialogModule,
     DragDropModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
@@ -38,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserAuthenticationModule,
     RouterModule,
     AppRoutingModule,
+    MatButtonModule,
   ],
 })
 export class BoardViewModule {}

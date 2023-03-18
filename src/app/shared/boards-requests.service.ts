@@ -94,16 +94,21 @@ export class BoardsRequestsService {
   async setTask(
     token: { token: string },
     boardId: string,
+    colId: string,
     body: { title: string; order: number }
   ) {
     try {
       const request = await firstValueFrom(
-        this.http.post(`${this.baseUrl}/boards/${boardId}/columns`, body, {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
-            'Content-Type': 'application/json',
-          },
-        })
+        this.http.post(
+          `${this.baseUrl}/boards/${boardId}/columns/${colId}/tasks`,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
       );
       return request;
     } catch (error) {

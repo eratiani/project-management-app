@@ -57,7 +57,7 @@ export class TasksViewComponent {
       this.token,
       id
     )) as ColumnRecieved[];
-
+    console.log(column);
     this.columns.push(...column);
   }
   async addcolumn(title: { title: string }, i: number = 0) {
