@@ -6,51 +6,47 @@
       <app-user-update></app-user-update>
     </div>
   </div>
-  
+
   <div class="d-flex justify-content-center">
-  <form
-    [formGroup]="createcolumnForm"
-    (ngSubmit)="addcolumn(createcolumnForm.value)"
-  >
-    <div class="form-outline mb-4 col-8">
-      <input
-        type="text"
-        id="form2Example1"
-        class="form-control"
-        formControlName="title"
-      />
-      <label class="form-label" for="form2Example1">{{
-        "tasks Title" | translate
-      }}</label>
-    </div>
-    <div class="col-7">
-      <button
-        type="submit"
-        class="btn btn-primary btn-block m-4"
-        [disabled]="!createcolumnForm.valid"
-        class="btn btn-primary"
-      >
-        create column
-      </button>
-    </div>
-  </form>
+    <form
+      [formGroup]="createcolumnForm"
+      (ngSubmit)="addcolumn(createcolumnForm.value)"
+    >
+      <div class="form-outline mb-4 col-8">
+        <input
+          type="text"
+          id="form2Example1"
+          class="form-control"
+          formControlName="title"
+        />
+        <label class="form-label" for="form2Example1">{{
+          "tasks Title" | translate
+        }}</label>
+      </div>
+      <div class="col-7">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block m-4"
+          [disabled]="!createcolumnForm.valid"
+          class="btn btn-primary"
+        >
+          create column
+        </button>
+      </div>
+    </form>
   </div>
-  
-    <div cdkDropList cdkDropListOrientation="horizontal" 
+
+  <div
+    cdkDropListGroup
+    cdkDropList
+    cdkDropListOrientation="horizontal"
     [cdkDropListData]="columns"
     class="example-list horizontal-scrollable"
-    (cdkDropListDropped)="drop($event)">
-      <div class="example-container" *ngFor="let column of columns" cdkDrag>
-        <h2>{{ column.title }}</h2>
-        <app-task></app-task>
-      </div>
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div class="example-container m-2" *ngFor="let column of columns" cdkDrag>
+      <h2>{{ column.title }}</h2>
+      <app-task></app-task>
     </div>
-    <div cdkDropList [cdkDropListData]="columns" class="example-list"  (cdkDropListDropped)="drop($event)"></div>>
-      <div class="example-container horizontal-scrollable" *ngFor="let column of columns" cdkDrag>
-        <h2>{{ column.title }}</h2>
-        <app-task></app-task>
-      </div>
-    </div>
-    
-   
+  </div>
 </div>

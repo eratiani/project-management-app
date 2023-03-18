@@ -1,11 +1,11 @@
 <app-generate-task-form></app-generate-task-form>
 <div
-cdkDropList
-[cdkDropListData]="task1"
-class="example-list"
-(cdkDropListDropped)="drop($event)"
+  cdkDropList
+  [cdkDropListData]="task1"
+  class="example-list"
+  (cdkDropListDropped)="drop($event)"
 >
-<div class="example-box" *ngFor="let item of task1" cdkDrag>
-  {{ item }}
-</div>
+  <!-- <div class="example-box" *ngFor="let task of tasks.filter(t => t.columnId === column.id)" cdkDrag>
+  {{ task.title }}
+</div> -->
 </div>

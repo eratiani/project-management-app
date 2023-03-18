@@ -17,7 +17,12 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 @NgModule({
-  declarations: [BoardMainComponent, TasksViewComponent, TaskComponent, GenerateTaskFormComponent],
+  declarations: [
+    BoardMainComponent,
+    TasksViewComponent,
+    TaskComponent,
+    GenerateTaskFormComponent,
+  ],
   imports: [
     CommonModule,
     DragDropModule,

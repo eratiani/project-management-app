@@ -17,11 +17,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class TasksViewComponent {
   private token: { token: string };
-  columns:ColumnRecieved[] = [
-  ];
+  columns: ColumnRecieved[] = [];
   @Input() board?: BoardRecieved;
   boardId: string = '';
-  createcolumnForm: FormGroup
+  createcolumnForm: FormGroup;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -34,8 +33,8 @@ export class TasksViewComponent {
       title: ['', [Validators.minLength(1), Validators.required]],
     });
   }
-  
-  drop(event:any) {
+
+  drop(event: any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -51,24 +50,31 @@ export class TasksViewComponent {
       );
     }
   }
- 
+
   async ngOnInit() {
     const id = this.getBoardId();
-    const column = await this.boardService.getCollumns(this.token, id) as ColumnRecieved[];
-    
-    this.columns.push(...column );
+    const column = (await this.boardService.getCollumns(
+      this.token,
+      id
+    )) as ColumnRecieved[];
+
+    this.columns.push(...column);
   }
-  async addcolumn(title: { title: string },i:number=0) {
-    const user: {title:string,order:number} = {
-      "title": title.title,
-      "order": i++
-    }
-    const column = await this.boardService.setCollumn(this.token,this.boardId ,user ) as ColumnRecieved;
+  async addcolumn(title: { title: string }, i: number = 0) {
+    const user: { title: string; order: number } = {
+      title: title.title,
+      order: i++,
+    };
+    const column = (await this.boardService.setCollumn(
+      this.token,
+      this.boardId,
+      user
+    )) as ColumnRecieved;
     console.log(column);
-    
-    this.columns.push(column );
+
+    this.columns.push(column);
   }
- 
+
   getBoardId() {
     const pathSegments = this.route.snapshot.url.map((segment) => segment.path); // get URL path segments
     const lastSegment = pathSegments.pop() as string;

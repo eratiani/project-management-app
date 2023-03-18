@@ -42,10 +42,14 @@ export class BoardsRequestsService {
       throw error;
     }
   }
-  async setCollumn(token: { token: string }, boardId: string, body:{title:string,order:number}) {
+  async setCollumn(
+    token: { token: string },
+    boardId: string,
+    body: { title: string; order: number }
+  ) {
     try {
       const request = await firstValueFrom(
-        this.http.post(`${this.baseUrl}/boards/${boardId}/columns`,body, {
+        this.http.post(`${this.baseUrl}/boards/${boardId}/columns`, body, {
           headers: {
             Authorization: `Bearer ${token.token}`,
             'Content-Type': 'application/json',
@@ -61,6 +65,59 @@ export class BoardsRequestsService {
     try {
       const request = await firstValueFrom(
         this.http.post(`${this.baseUrl}/boards`, user, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+        })
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getTasksByBoardId(token: { token: string }, boardId: string) {
+    try {
+      const request = await firstValueFrom(
+        this.http.get(`${this.baseUrl}/tasksSet/${boardId}`, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+        })
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async setTask(
+    token: { token: string },
+    boardId: string,
+    body: { title: string; order: number }
+  ) {
+    try {
+      const request = await firstValueFrom(
+        this.http.post(`${this.baseUrl}/boards/${boardId}/columns`, body, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+        })
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getTask(
+    token: { token: string },
+    boardId: string,
+    body: { title: string; order: number }
+  ) {
+    try {
+      const request = await firstValueFrom(
+        this.http.post(`${this.baseUrl}/boards/${boardId}/columns`, body, {
           headers: {
             Authorization: `Bearer ${token.token}`,
             'Content-Type': 'application/json',
