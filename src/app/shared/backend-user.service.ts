@@ -4,11 +4,15 @@ import { environment } from '../environments/environments';
 import { UserSent } from './user-sent';
 import { firstValueFrom } from 'rxjs';
 import { UserReceived } from './user-received';
-
+import { Router } from '@angular/router';
+import jwt_decode, { JwtPayload } from 'jwt-decode';
+import { DecodedToken } from "./decoder";
 @Injectable({
   providedIn: 'root',
 })
+
 export class BackendUserService {
+  
   private baseUrl: string;
   private loggedIn: boolean = false;
   userLocal: UserReceived = {
@@ -19,7 +23,7 @@ export class BackendUserService {
   private token: { token: string } = {
     token: '',
   };
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private router:Router) {
     this.baseUrl = environment.apiUrl;
   }
   async registerUser(user: UserSent) {
@@ -42,7 +46,8 @@ export class BackendUserService {
       this.loggedIn = true;
       this.token = request;
       this.setLocalUser(user, request);
-
+        localStorage.setItem('token',this.token.token)
+        localStorage.setItem('logedIn',`false`)
       return request;
     } catch (error) {
       throw error;
@@ -112,6 +117,17 @@ export class BackendUserService {
       throw error;
     }
   }
+  checkTokenExpiration(token: string): DecodedToken {
+    const decodedToken = jwt_decode<DecodedToken>(token);
+    const currentTime = new Date().getTime() / 1000;
+    if (decodedToken.exp < currentTime) {
+      throw new Error('Token has expired');
+    }
+    return decodedToken;
+  }
+  userLoggedIn() {
+    this.loggedIn = true;
+  }
   isLoggedIn() {
     return this.loggedIn;
   }
@@ -128,6 +144,7 @@ export class BackendUserService {
     this.userLocal = { ...userGot[0] };
   }
   getToken() {
-    return this.token;
+    const token:{token:string} = {token:`${localStorage.getItem("token")}`}
+    return token;
   }
 }

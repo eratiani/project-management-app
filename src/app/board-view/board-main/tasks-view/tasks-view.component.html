@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <div class="d-flex justify-content-center">
+  <div class="d-flex justify-content-center ">
     <form
       [formGroup]="createcolumnForm"
       (ngSubmit)="addcolumn(createcolumnForm.value)"
@@ -41,7 +41,7 @@
     cdkDropList
     cdkDropListOrientation="horizontal"
     [cdkDropListData]="columns"
-    class="example-list horizontal-scrollable"
+    class="example-list horizontal-scrollable mx-auto"
     (cdkDropListDropped)="drop($event)"
   >
     <div class="example-container m-2" *ngFor="let column of columns" cdkDrag>

@@ -14,6 +14,8 @@ export class BoardsRequestsService {
   }
   async getBoards(token: { token: string }) {
     try {
+      console.log(token);
+      
       const request = await firstValueFrom(
         this.http.get(`${this.baseUrl}/boards`, {
           headers: {

@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./tasks-view.component.css'],
 })
 export class TasksViewComponent {
-  private token: { token: string };
+  private token: { token: string }={token:""};
   columns: ColumnRecieved[] = [];
   @Input() board?: BoardRecieved;
   boardId: string = '';
@@ -28,7 +28,8 @@ export class TasksViewComponent {
     private boardService: BoardsRequestsService,
     private formBuilder: FormBuilder
   ) {
-    this.token = this.userService.getToken();
+    
+    
     this.createcolumnForm = this.formBuilder.group({
       title: ['', [Validators.minLength(1), Validators.required]],
     });
@@ -52,6 +53,7 @@ export class TasksViewComponent {
   }
 
   async ngOnInit() {
+    this.token = this.userService.getToken();
     const id = this.getBoardId();
     const column = (await this.boardService.getCollumns(
       this.token,

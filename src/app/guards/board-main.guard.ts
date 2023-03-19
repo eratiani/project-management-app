@@ -4,6 +4,7 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
+  Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BackendUserService } from '../shared/backend-user.service';
@@ -12,8 +13,9 @@ import { BackendUserService } from '../shared/backend-user.service';
   providedIn: 'root',
 })
 export class BoardMainGuard implements CanActivate {
-  constructor(private authService: BackendUserService) {}
+  constructor(private authService: BackendUserService, private userAuth:BackendUserService, private router:Router,  ) {
 
+  }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -22,6 +24,22 @@ export class BoardMainGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+      const token = localStorage.getItem("token")
+      
+      if (token) {
+
+        const decoded = this.userAuth.checkTokenExpiration(token)
+        console.log(decoded);
+        const currentUnixTime = Math.floor(Date.now() / 1000);
+        console.log(currentUnixTime);
+        
+          if (decoded.exp < currentUnixTime) {
+            localStorage.removeItem("token");
+            this.userAuth.userLoggedIn();
+            this.router.navigate(['Home']);
+          }
+
+      }
     return this.authService.isLoggedIn();
   }
 }
