@@ -34,6 +34,7 @@
   </form>
 </div>
 <div class="d-flex justify-content-center m-2">
+  <app-form-delete *ngIf="delete"></app-form-delete >
   <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
     <a
       (click)="goToTasks($event)"
@@ -42,7 +43,18 @@
     >
       <div class="example-box" cdkDrag>
         <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+        
+       <h2>
         {{ board.title }}
+       </h2> 
+       <span>
+
+         <button (click)="deleteForm($event)"
+          class="btn btn-danger btn-block m-4"
+        >
+          delete
+        </button>
+       </span>
       </div>
     </a>
   </div>

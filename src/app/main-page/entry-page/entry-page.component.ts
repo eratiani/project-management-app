@@ -34,7 +34,9 @@ export class EntryPageComponent {
       
     
       } catch (error:any) {
-        this.errorHandler.generateError(error)
+        // this.errorHandler.generateError(error)
+        console.log(error);
+        
       }
     }
 }

@@ -14,6 +14,7 @@ import { BoardRecieved } from 'src/app/shared/board-received';
   styleUrls: ['./board-main.component.css'],
 })
 export class BoardMainComponent {
+  delete:boolean=false
   createBoardForm: FormGroup;
   private token: { token: string };
   private currUser: string = '';
@@ -58,5 +59,9 @@ export class BoardMainComponent {
   }
   async getBoards(token: { token: string }) {
     return await this.boardService.getBoards(token);
+  }
+  deleteForm(event:Event){
+    event.stopImmediatePropagation()
+    this.delete = true;
   }
 }

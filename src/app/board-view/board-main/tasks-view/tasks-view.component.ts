@@ -16,6 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./tasks-view.component.css'],
 })
 export class TasksViewComponent {
+  
   private token: { token: string }={token:""};
   columns: ColumnRecieved[] = [];
   @Input() board?: BoardRecieved;
