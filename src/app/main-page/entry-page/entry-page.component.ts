@@ -21,10 +21,15 @@ export class EntryPageComponent {
       const token = localStorage.getItem("token")
         if (!token) return
         if(!isLoged) return
-        const decoded = this.userAuth.checkTokenExpiration(token)
+        const decoded = this.userAuth.checkTokenExpiration(token) as{exp:number,   iat:number,
+          id
+          : string,          login
+          : string}
         const currentUnixTime = Math.floor(Date.now() / 1000);
+        console.log(decoded.id);
+        
           if (decoded.exp > currentUnixTime) {
-            
+            localStorage.setItem('localUserId',decoded.id)
             this.userAuth.userLoggedIn();
             this.router.navigate(['/board/main']);
           } else {

@@ -48,6 +48,8 @@ export class BackendUserService {
       this.setLocalUser(user, request);
         localStorage.setItem('token',this.token.token)
         localStorage.setItem('logedIn',`false`)
+        localStorage.setItem('userName',user.login)
+       
       return request;
     } catch (error) {
       throw error;

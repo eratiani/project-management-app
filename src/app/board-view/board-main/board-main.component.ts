@@ -18,6 +18,7 @@ export class BoardMainComponent {
   createBoardForm: FormGroup;
   private token: { token: string };
   private currUser: string = '';
+  private currBoard:string=""
   boards: BoardRecieved[] = [];
   constructor(
     private http: HttpClient,
@@ -30,9 +31,11 @@ export class BoardMainComponent {
       title: ['', [Validators.minLength(1), Validators.required]],
     });
     this.token = this.userService.getToken();
-    setTimeout(() => {
-      this.currUser = this.userService.userLocal.login;
-    }, 1000);
+  
+      const userlogIn = localStorage.getItem('userName');
+      if (userlogIn===null) return
+      this.currUser = userlogIn;
+   
   }
   async ngOnInit() {
     const board = (await this.getBoards(this.token)) as BoardRecieved[];
@@ -42,20 +45,31 @@ export class BoardMainComponent {
     moveItemInArray(this.boards, event.previousIndex, event.currentIndex);
   }
   goToTasks(e: Event) {
-    const myValue = (e.target as HTMLElement).parentElement?.getAttribute(
+    const myValue = (e.target as HTMLElement).closest('#boardsDom')?.getAttribute(
       'dataId'
     );
+    console.log(myValue);
+    
     this.router.navigateByUrl(`board/main/${myValue}`);
   }
   async addBoard(title: { title: string }) {
-    const user: BoardSent = {
-      title: title.title,
-      owner: this.currUser,
-      users: [this.currUser],
-    };
-    const board = await this.boardService.setBoard(user, this.token);
-
-    this.boards.push(board as BoardRecieved);
+    try {
+      const user: BoardSent = {
+        title: title.title,
+        owner: this.currUser,
+        users: [this.currUser],
+      };
+  
+      
+      
+      const board = await this.boardService.setBoard(user, this.token);
+      
+      this.boards.push(board as BoardRecieved);
+    } catch (error) {
+      console.log(error);
+      
+    }
+   
   }
   async getBoards(token: { token: string }) {
     return await this.boardService.getBoards(token);
@@ -63,5 +77,32 @@ export class BoardMainComponent {
   deleteForm(event:Event){
     event.stopImmediatePropagation()
     this.delete = true;
+    const boardId = (event.target as HTMLElement).getAttribute(
+      'dataId'
+    ) ;
+    if (boardId===null) return
+    this.currBoard = boardId;
+    
+  }
+  cancel(event: boolean){
+    this.delete = !event;
+    
+  }
+  deleteItem(event: boolean){
+    try {
+      if (!event)return
+      const deleteb = this.boardService.deleteBoard(this.token,this.currBoard);
+      console.log(this.boards);
+       this.boards.forEach((board:BoardRecieved ,i:number) => {
+        if (board._id === this.currBoard) {
+          this.boards.splice(i, 1);
+        }
+       })
+      this.delete = !event
+    } catch (error) {
+      console.log(error);
+      
+    }
+   
   }
 }

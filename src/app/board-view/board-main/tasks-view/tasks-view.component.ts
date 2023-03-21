@@ -19,6 +19,7 @@ export class TasksViewComponent {
   
   private token: { token: string }={token:""};
   columns: ColumnRecieved[] = [];
+  delete:boolean=false
   @Input() board?: BoardRecieved;
   boardId: string = '';
   createcolumnForm: FormGroup;
@@ -56,6 +57,8 @@ export class TasksViewComponent {
   async ngOnInit() {
     this.token = this.userService.getToken();
     const id = this.getBoardId();
+    console.log(id);
+    
     const column = (await this.boardService.getCollumns(
       this.token,
       id
@@ -66,7 +69,7 @@ export class TasksViewComponent {
   async addcolumn(title: { title: string }, i: number = 0) {
     const user: { title: string; order: number } = {
       title: title.title,
-      order: i++,
+      order: i,
     };
     const column = (await this.boardService.setCollumn(
       this.token,
@@ -83,5 +86,29 @@ export class TasksViewComponent {
     const lastSegment = pathSegments.pop() as string;
     const lastDashIndex = lastSegment.lastIndexOf('-'); // find last dash index
     return (this.boardId = lastSegment.substring(lastDashIndex + 1));
+  }
+  cancel(event: boolean){
+    this.delete = !event;
+    
+  }
+  deleteCol(e:boolean) {
+this.delete = e
+  }
+  deleteItem(event: boolean){
+    // try {
+    //   if (!event)return
+    //   const deleteb = this.boardService.deleteColumn(this.token,this.boardId,this.columnId);
+    //   console.log(this.boards);
+    //    this.boards.forEach((board:BoardRecieved ,i:number) => {
+    //     if (board._id === this.currBoard) {
+    //       this.boards.splice(i, 1);
+    //     }
+    //    })
+    //   this.delete = !event
+    // } catch (error) {
+    //   console.log(error);
+      
+    // }
+   
   }
 }

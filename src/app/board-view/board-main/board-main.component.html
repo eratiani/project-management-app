@@ -34,9 +34,9 @@
   </form>
 </div>
 <div class="d-flex justify-content-center m-2">
-  <app-form-delete *ngIf="delete"></app-form-delete >
+  <app-form-delete *ngIf="delete" (canCelEv)="cancel($event)" (delEv)="deleteItem($event)"></app-form-delete >
   <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-    <a
+    <a id="boardsDom"
       (click)="goToTasks($event)"
       *ngFor="let board of boards"
       [attr.dataId]="board['_id']"
@@ -49,7 +49,7 @@
        </h2> 
        <span>
 
-         <button (click)="deleteForm($event)"
+         <button [attr.dataId]="board['_id']" (click)="deleteForm($event)"
           class="btn btn-danger btn-block m-4"
         >
           delete

@@ -29,6 +29,23 @@ export class BoardsRequestsService {
       throw error;
     }
   }
+  async deleteBoard(token: { token: string } , boardId:string) {
+    try {
+      console.log(token);
+      
+      const request = await firstValueFrom(
+        this.http.delete(`${this.baseUrl}/boards/${boardId}`, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+        })
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
   async getCollumns(token: { token: string }, boardId: string) {
     try {
       const request = await firstValueFrom(
@@ -52,6 +69,23 @@ export class BoardsRequestsService {
     try {
       const request = await firstValueFrom(
         this.http.post(`${this.baseUrl}/boards/${boardId}/columns`, body, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+        })
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async deleteColumn(token: { token: string } , boardId:string,columnId:string) {
+    try {
+      console.log(token);
+      
+      const request = await firstValueFrom(
+        this.http.delete(`${this.baseUrl}/boards/${boardId}/columns/${columnId}`, {
           headers: {
             Authorization: `Bearer ${token.token}`,
             'Content-Type': 'application/json',
