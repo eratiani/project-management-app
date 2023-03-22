@@ -29,9 +29,7 @@ export class BoardMainGuard implements CanActivate {
       if (token) {
 
         const decoded = this.userAuth.checkTokenExpiration(token)
-        console.log(decoded);
         const currentUnixTime = Math.floor(Date.now() / 1000);
-        console.log(currentUnixTime);
         
           if (decoded.exp < currentUnixTime) {
             localStorage.removeItem("token");

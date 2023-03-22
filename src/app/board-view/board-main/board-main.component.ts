@@ -7,6 +7,7 @@ import { BackendUserService } from 'src/app/shared/backend-user.service';
 import { HttpClient } from '@angular/common/http';
 import { BoardSent } from 'src/app/shared/board-sent';
 import { BoardRecieved } from 'src/app/shared/board-received';
+import { ErrorHandllingService } from 'src/app/shared/error-handlling.service';
 
 @Component({
   selector: 'app-board-main',
@@ -25,7 +26,8 @@ export class BoardMainComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private userService: BackendUserService,
-    private boardService: BoardsRequestsService
+    private boardService: BoardsRequestsService,
+    private errorService: ErrorHandllingService
   ) {
     this.createBoardForm = this.formBuilder.group({
       title: ['', [Validators.minLength(1), Validators.required]],
@@ -48,7 +50,6 @@ export class BoardMainComponent {
     const myValue = (e.target as HTMLElement).closest('#boardsDom')?.getAttribute(
       'dataId'
     );
-    console.log(myValue);
     
     this.router.navigateByUrl(`board/main/${myValue}`);
   }
@@ -66,7 +67,7 @@ export class BoardMainComponent {
       
       this.boards.push(board as BoardRecieved);
     } catch (error) {
-      console.log(error);
+      this.errorService.generateError(error)
       
     }
    
@@ -92,7 +93,6 @@ export class BoardMainComponent {
     try {
       if (!event)return
       const deleteb = this.boardService.deleteBoard(this.token,this.currBoard);
-      console.log(this.boards);
        this.boards.forEach((board:BoardRecieved ,i:number) => {
         if (board._id === this.currBoard) {
           this.boards.splice(i, 1);
@@ -100,7 +100,7 @@ export class BoardMainComponent {
        })
       this.delete = !event
     } catch (error) {
-      console.log(error);
+      this.errorService.generateError(error)
       
     }
    

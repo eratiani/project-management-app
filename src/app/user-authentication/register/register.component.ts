@@ -53,7 +53,7 @@ export class RegisterComponent {
 
       this.signIn(currUser);
     } catch (error) {
-      // this.errorService.generateError(error);
+      this.errorService.generateError(error);
     }
   }
   async signIn(user: UserSent) {
@@ -63,8 +63,7 @@ export class RegisterComponent {
 
       this.router.navigateByUrl('board/main');
     } catch (error) {
-      // this.errorService.generateError(error);
-      console.log(error);
+      this.errorService.generateError(error);
     }
   }
 }

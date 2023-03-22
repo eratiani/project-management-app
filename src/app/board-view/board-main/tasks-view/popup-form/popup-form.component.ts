@@ -18,13 +18,13 @@ export class PopupFormComponent {
       description: ['', [Validators.minLength(5), Validators.required]],
     });
   }
-  close() {
+  close(e:Event) {
+    e.stopPropagation()
     this.dialogRef.close();
   }
   onSubmit(value: { title: string; description: string }) {
-    console.log(value);
 
     this.formSubmit.emit(value);
-    this.close();
+    this.dialogRef.close();
   }
 }

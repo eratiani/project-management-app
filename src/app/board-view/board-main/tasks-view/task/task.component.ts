@@ -19,6 +19,8 @@ export class TaskComponent {
   @Input() columnId: string = '';
   @Input() boardId: string = '';
   @Output() deleteCol = new EventEmitter<any>();
+  private taskId:string = ''
+  delete:boolean=false;
   private token: { token: string };
   get tasksFilteredByColumn(): TaskRecieved[] {
     return this.task1.filter((task) => task.columnId === this.columnId);
@@ -32,7 +34,6 @@ export class TaskComponent {
     this.token = this.userService.getToken();
   }
   async ngOnInit() {
-    console.log(this.columnId);
 
     const tasks = (await this.boardRequests.getTasksByBoardId(
       this.token,
@@ -69,8 +70,46 @@ export class TaskComponent {
       }
     );
   }
+  openPopupTask(e:Event) {
+    const dialogRef = this.dialog.open(PopupFormComponent);
+    dialogRef.componentInstance.formSubmit.subscribe(
+      (data: { title: string; description: string }) => {
+        if (e.target===null) return
+        
+       const taskId = (e.target as HTMLElement).closest("#special")?.getAttribute("taskId") as string
+        const boardId = this.boardId;
+        const columnId = this.columnId;
+        const localId = localStorage.getItem('localUserId');
+        const id = this.userService.userLocal._id;
+        
+        if (localId === null) return;
+        const user: {
+          title: string;
+          description: string;
+          users: string[];
+          order: number;
+          columnId: string,
+          userId: string;
+        } = {
+          title: data.title,
+          description: data.description,
+          users: [data.title],
+          order: 0,
+          userId: id === '' ? localId : id,
+          columnId:columnId
+        };
+        this.task1.forEach((column: TaskRecieved, i: number) => {
+          if (column._id === taskId) {
+            column.description = user.description,
+            column.title = user.title,
+            column.order = user.order
+          }
+        });
+        this.boardRequests.editTask(this.token,boardId,columnId,user,taskId)
+      }
+    );
+  }
   async addTask(obj: { title: string; description: string }) {
-    console.log(obj);
     const id = this.userService.userLocal._id;
     const localId = localStorage.getItem('localUserId');
     if (localId === null) return;
@@ -87,7 +126,6 @@ export class TaskComponent {
       order: 0,
       userId: id === '' ? localId : id,
     };
-    console.log();
 
     const board = await this.boardRequests.setTask(
       this.token,
@@ -95,11 +133,45 @@ export class TaskComponent {
       this.columnId,
       user
     );
-    console.log(this.task1);
 
     this.task1.push(board as TaskRecieved);
   }
   deleteForm(event: Event) {
     return this.deleteCol.emit(event);
+  }
+  cancel(event: boolean) {
+    this.delete = !event;
+  }
+  deleteTask(e: boolean) {
+     this.delete = !e;
+    try {
+      const boardId = this.boardId;
+      const colId = this.columnId;
+
+      if (!e) return;
+      const deleted = this.boardRequests.deleteTask(
+        this.token,
+        boardId,
+        colId,
+        this.taskId
+      );
+      this.task1.forEach((column: TaskRecieved, i: number) => {
+        if (column._id === this.taskId) {
+          this.task1.splice(i, 1);
+        }
+      });
+    }
+    catch(error) {
+  }
+}
+  deleteFormOpen(event: Event) {
+    event.stopImmediatePropagation()
+    this.delete = true;
+   
+
+    const taskId = (event.target as HTMLElement).getAttribute('taskId');
+
+    if (taskId === null) return;
+    this.taskId = taskId;
   }
 }

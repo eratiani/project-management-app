@@ -1,3 +1,4 @@
+<div class="container">
 <button
   class="btn btn-primary btn-block m-4"
   class="btn btn-primary"
@@ -14,13 +15,33 @@
     delete
   </button>
 </span>
+<div class="row">
+  <div class="col-9">
+    <app-form-delete
+      *ngIf="delete"
+      (canCelEv)="cancel($event)"
+      (delEv)="deleteTask($event)"
+    ></app-form-delete>
+  </div>
+</div>
 <div
   cdkDropList
   [cdkDropListData]="task1"
   class="example-list"
   (cdkDropListDropped)="drop($event)"
 >
-  <div class="example-box" *ngFor="let task of tasksFilteredByColumn" cdkDrag>
-    {{ task.title }}
+  <div [attr.taskId]="task['_id']" (click)="openPopupTask($event)" id="special" class="example-box d-flex flex-column " *ngFor="let task of tasksFilteredByColumn" cdkDrag>
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>{{ task.title }}</h2>
+      <span><button
+        (click)="deleteFormOpen($event)"
+        [attr.taskId]="task['_id']"
+        class="btn btn-danger btn-block m-4"
+      >
+        delete
+      </button></span>
+    </div>
+    <p>{{ task.description }}</p>
   </div>
+</div>
 </div>

@@ -17,7 +17,6 @@ export class EntryPageComponent {
       
       try {
         const isLoged = localStorage.getItem("logedIn")
-        console.log(isLoged);
       const token = localStorage.getItem("token")
         if (!token) return
         if(!isLoged) return
@@ -26,7 +25,6 @@ export class EntryPageComponent {
           : string,          login
           : string}
         const currentUnixTime = Math.floor(Date.now() / 1000);
-        console.log(decoded.id);
         
           if (decoded.exp > currentUnixTime) {
             localStorage.setItem('localUserId',decoded.id)
@@ -38,9 +36,8 @@ export class EntryPageComponent {
         
       
     
-      } catch (error:any) {
-        // this.errorHandler.generateError(error)
-        console.log(error);
+      } catch (error) {
+        this.errorHandler.generateError(error)
         
       }
     }

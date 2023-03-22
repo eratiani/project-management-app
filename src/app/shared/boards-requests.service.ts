@@ -14,7 +14,6 @@ export class BoardsRequestsService {
   }
   async getBoards(token: { token: string }) {
     try {
-      console.log(token);
 
       const request = await firstValueFrom(
         this.http.get(`${this.baseUrl}/boards`, {
@@ -31,7 +30,6 @@ export class BoardsRequestsService {
   }
   async deleteBoard(token: { token: string }, boardId: string) {
     try {
-      console.log(token);
 
       const request = await firstValueFrom(
         this.http.delete(`${this.baseUrl}/boards/${boardId}`, {
@@ -86,7 +84,6 @@ export class BoardsRequestsService {
     columnId: string
   ) {
     try {
-      console.log(token);
 
       const request = await firstValueFrom(
         this.http.delete(
@@ -111,7 +108,6 @@ export class BoardsRequestsService {
     body: { title: string; order: number }
   ) {
     try {
-      console.log(token);
 
       const request = await firstValueFrom(
         this.http.put(
@@ -197,6 +193,56 @@ export class BoardsRequestsService {
             'Content-Type': 'application/json',
           },
         })
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async editTask(
+    token: { token: string },
+    boardId: string,
+    columnId: string,
+    body: { title: string; order: number },
+    taskId:string
+  ) {
+    try {
+
+      const request = await firstValueFrom(
+        this.http.put(
+          `${this.baseUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async deleteTask(
+    token: { token: string },
+    boardId: string,
+    columnId: string,
+    taskId:string
+  ) {
+    try {
+
+      const request = await firstValueFrom(
+        this.http.delete(
+          `${this.baseUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
       );
       return request;
     } catch (error) {

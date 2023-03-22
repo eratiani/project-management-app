@@ -10,6 +10,7 @@ import { BoardsRequestsService } from 'src/app/shared/boards-requests.service';
 import { BackendUserService } from 'src/app/shared/backend-user.service';
 import { ColumnRecieved } from 'src/app/shared/column-recieved';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ErrorHandllingService } from 'src/app/shared/error-handlling.service';
 @Component({
   selector: 'app-tasks-view',
   templateUrl: './tasks-view.component.html',
@@ -29,7 +30,8 @@ export class TasksViewComponent {
     private route: ActivatedRoute,
     private userService: BackendUserService,
     private boardService: BoardsRequestsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private errorService:ErrorHandllingService
   ) {
     this.createcolumnForm = this.formBuilder.group({
       title: ['', [Validators.minLength(1), Validators.required]],
@@ -56,13 +58,11 @@ export class TasksViewComponent {
   async ngOnInit() {
     this.token = this.userService.getToken();
     const id = this.getBoardId();
-    console.log(id);
 
     const column = (await this.boardService.getCollumns(
       this.token,
       id
     )) as ColumnRecieved[];
-    console.log(column);
     this.columns.push(...column);
   }
   async addcolumn(title: { title: string }, i: number = 0) {
@@ -75,15 +75,14 @@ export class TasksViewComponent {
       this.boardId,
       user
     )) as ColumnRecieved;
-    console.log(column);
 
     this.columns.push(column);
   }
 
   getBoardId() {
-    const pathSegments = this.route.snapshot.url.map((segment) => segment.path); // get URL path segments
+    const pathSegments = this.route.snapshot.url.map((segment) => segment.path); 
     const lastSegment = pathSegments.pop() as string;
-    const lastDashIndex = lastSegment.lastIndexOf('-'); // find last dash index
+    const lastDashIndex = lastSegment.lastIndexOf('-'); 
     return (this.boardId = lastSegment.substring(lastDashIndex + 1));
   }
   cancel(event: boolean) {
@@ -91,10 +90,8 @@ export class TasksViewComponent {
   }
   deleteCol(e: Event) {
     this.delete = true;
-    console.log(e);
 
     const colId = (e.target as HTMLElement).getAttribute('colid');
-    console.log(colId);
 
     if (colId === null) return;
     this.colId = colId;
@@ -104,7 +101,7 @@ export class TasksViewComponent {
     try {
       const boardId = this.boardId;
       const colId = this.colId;
-      console.log(boardId, colId, this.token);
+      
 
       if (!event) return;
       const deleted = this.boardService.deleteColumn(
@@ -112,7 +109,6 @@ export class TasksViewComponent {
         boardId,
         colId
       );
-      console.log(this.columns);
       this.columns.forEach((column: ColumnRecieved, i: number) => {
         if (column._id === this.colId) {
           this.columns.splice(i, 1);
@@ -120,7 +116,7 @@ export class TasksViewComponent {
       });
       this.delete = !event;
     } catch (error) {
-      console.log(error);
+      this.errorService.generateError(error)
     }
   }
   editTitle(column: ColumnRecieved) {
@@ -132,7 +128,6 @@ export class TasksViewComponent {
   }
 
   submitEdit(column: ColumnRecieved) {
-    console.log(column);
     try {
       column.title = column.title;
       column.isEditMode = false;
