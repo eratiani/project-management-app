@@ -16,12 +16,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./tasks-view.component.css'],
 })
 export class TasksViewComponent {
-  
-  private token: { token: string }={token:""};
+  private token: { token: string } = { token: '' };
+  isEditMode: boolean = false;
   columns: ColumnRecieved[] = [];
-  delete:boolean=false
+  delete: boolean = false;
   @Input() board?: BoardRecieved;
   boardId: string = '';
+  colId: string = '';
   createcolumnForm: FormGroup;
   constructor(
     private router: Router,
@@ -30,8 +31,6 @@ export class TasksViewComponent {
     private boardService: BoardsRequestsService,
     private formBuilder: FormBuilder
   ) {
-    
-    
     this.createcolumnForm = this.formBuilder.group({
       title: ['', [Validators.minLength(1), Validators.required]],
     });
@@ -58,7 +57,7 @@ export class TasksViewComponent {
     this.token = this.userService.getToken();
     const id = this.getBoardId();
     console.log(id);
-    
+
     const column = (await this.boardService.getCollumns(
       this.token,
       id
@@ -87,28 +86,68 @@ export class TasksViewComponent {
     const lastDashIndex = lastSegment.lastIndexOf('-'); // find last dash index
     return (this.boardId = lastSegment.substring(lastDashIndex + 1));
   }
-  cancel(event: boolean){
+  cancel(event: boolean) {
     this.delete = !event;
-    
   }
-  deleteCol(e:boolean) {
-this.delete = e
+  deleteCol(e: Event) {
+    this.delete = true;
+    console.log(e);
+
+    const colId = (e.target as HTMLElement).getAttribute('colid');
+    console.log(colId);
+
+    if (colId === null) return;
+    this.colId = colId;
   }
-  deleteItem(event: boolean){
-    // try {
-    //   if (!event)return
-    //   const deleteb = this.boardService.deleteColumn(this.token,this.boardId,this.columnId);
-    //   console.log(this.boards);
-    //    this.boards.forEach((board:BoardRecieved ,i:number) => {
-    //     if (board._id === this.currBoard) {
-    //       this.boards.splice(i, 1);
-    //     }
-    //    })
-    //   this.delete = !event
-    // } catch (error) {
-    //   console.log(error);
-      
-    // }
-   
+  deleteItem(event: boolean) {
+    this.delete = !event;
+    try {
+      const boardId = this.boardId;
+      const colId = this.colId;
+      console.log(boardId, colId, this.token);
+
+      if (!event) return;
+      const deleted = this.boardService.deleteColumn(
+        this.token,
+        boardId,
+        colId
+      );
+      console.log(this.columns);
+      this.columns.forEach((column: ColumnRecieved, i: number) => {
+        if (column._id === this.colId) {
+          this.columns.splice(i, 1);
+        }
+      });
+      this.delete = !event;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  editTitle(column: ColumnRecieved) {
+    column.isEditMode = true;
+  }
+
+  cancelEdit(column: ColumnRecieved) {
+    column.isEditMode = false;
+  }
+
+  submitEdit(column: ColumnRecieved) {
+    console.log(column);
+    try {
+      column.title = column.title;
+      column.isEditMode = false;
+      const boardId = column.boardId;
+      const colId = column['_id'];
+      const body = {
+        title: column.title,
+        order: column.order,
+      };
+      const updatedBoard = this.boardService.editColumn(
+        this.token,
+        boardId,
+        colId,
+        body
+      );
+    } catch (error) {}
   }
 }

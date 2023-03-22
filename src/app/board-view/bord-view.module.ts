@@ -9,7 +9,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TasksViewComponent } from './board-main/tasks-view/tasks-view.component';
 import { TaskComponent } from './board-main/tasks-view/task/task.component';
 import { GenerateTaskFormComponent } from './board-main/tasks-view/task/generate-task-form/generate-task-form.component';
@@ -46,6 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     RouterModule,
     AppRoutingModule,
     MatButtonModule,
+    FormsModule,
   ],
 })
 export class BoardViewModule {}

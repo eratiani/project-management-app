@@ -18,7 +18,7 @@ import { PopupFormComponent } from '../popup-form/popup-form.component';
 export class TaskComponent {
   @Input() columnId: string = '';
   @Input() boardId: string = '';
-  @Output() deleteCol = new EventEmitter<any>()
+  @Output() deleteCol = new EventEmitter<any>();
   private token: { token: string };
   get tasksFilteredByColumn(): TaskRecieved[] {
     return this.task1.filter((task) => task.columnId === this.columnId);
@@ -70,10 +70,10 @@ export class TaskComponent {
     );
   }
   async addTask(obj: { title: string; description: string }) {
-    console.log(obj,);
-    const id = this.userService.userLocal._id
-    const localId = localStorage.getItem('localUserId')
-    if (localId=== null)  return
+    console.log(obj);
+    const id = this.userService.userLocal._id;
+    const localId = localStorage.getItem('localUserId');
+    if (localId === null) return;
     const user: {
       title: string;
       description: string;
@@ -85,23 +85,21 @@ export class TaskComponent {
       description: obj.description,
       users: [obj.title],
       order: 0,
-      userId: (id==="")?localId :id
+      userId: id === '' ? localId : id,
     };
     console.log();
-    
+
     const board = await this.boardRequests.setTask(
       this.token,
       this.boardId,
       this.columnId,
       user
     );
-console.log(this.task1);
+    console.log(this.task1);
 
     this.task1.push(board as TaskRecieved);
   }
-  deleteForm(event:Event) {
-    return this.deleteCol.emit(true);
-    
+  deleteForm(event: Event) {
+    return this.deleteCol.emit(event);
   }
-  
 }

@@ -15,7 +15,7 @@ export class BoardsRequestsService {
   async getBoards(token: { token: string }) {
     try {
       console.log(token);
-      
+
       const request = await firstValueFrom(
         this.http.get(`${this.baseUrl}/boards`, {
           headers: {
@@ -29,10 +29,10 @@ export class BoardsRequestsService {
       throw error;
     }
   }
-  async deleteBoard(token: { token: string } , boardId:string) {
+  async deleteBoard(token: { token: string }, boardId: string) {
     try {
       console.log(token);
-      
+
       const request = await firstValueFrom(
         this.http.delete(`${this.baseUrl}/boards/${boardId}`, {
           headers: {
@@ -80,17 +80,50 @@ export class BoardsRequestsService {
       throw error;
     }
   }
-  async deleteColumn(token: { token: string } , boardId:string,columnId:string) {
+  async deleteColumn(
+    token: { token: string },
+    boardId: string,
+    columnId: string
+  ) {
     try {
       console.log(token);
-      
+
       const request = await firstValueFrom(
-        this.http.delete(`${this.baseUrl}/boards/${boardId}/columns/${columnId}`, {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
-            'Content-Type': 'application/json',
-          },
-        })
+        this.http.delete(
+          `${this.baseUrl}/boards/${boardId}/columns/${columnId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async editColumn(
+    token: { token: string },
+    boardId: string,
+    columnId: string,
+    body: { title: string; order: number }
+  ) {
+    try {
+      console.log(token);
+
+      const request = await firstValueFrom(
+        this.http.put(
+          `${this.baseUrl}/boards/${boardId}/columns/${columnId}`,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
       );
       return request;
     } catch (error) {

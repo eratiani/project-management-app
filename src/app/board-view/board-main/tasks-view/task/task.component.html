@@ -6,12 +6,13 @@
   add task
 </button>
 <span>
-
-  <button  (click)="deleteForm($event)"
-   class="btn btn-danger btn-block m-4"
- >
-   delete
- </button>
+  <button
+    (click)="deleteForm($event)"
+    [attr.colId]="columnId"
+    class="btn btn-danger btn-block m-4"
+  >
+    delete
+  </button>
 </span>
 <div
   cdkDropList

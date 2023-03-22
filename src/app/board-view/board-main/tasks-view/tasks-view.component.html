@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <div class="d-flex justify-content-center ">
+  <div class="d-flex justify-content-center">
     <form
       [formGroup]="createcolumnForm"
       (ngSubmit)="addcolumn(createcolumnForm.value)"
@@ -32,12 +32,17 @@
         >
           create column
         </button>
-      
       </div>
     </form>
   </div>
   <div class="container">
-    <div class="col-7"><app-form-delete *ngIf="delete" (canCelEv)="cancel($event)" (delEv)="deleteItem($event)"></app-form-delete ></div>
+    <div class="col-7">
+      <app-form-delete
+        *ngIf="delete"
+        (canCelEv)="cancel($event)"
+        (delEv)="deleteItem($event)"
+      ></app-form-delete>
+    </div>
   </div>
   <div
     cdkDropListGroup
@@ -48,8 +53,19 @@
     (cdkDropListDropped)="drop($event)"
   >
     <div class="example-container m-2" *ngFor="let column of columns" cdkDrag>
-      <h2>{{ column.title }}</h2>
-      <app-task (deleteCol)="deleteCol($event)"
+      <h2 (click)="editTitle(column)">{{ column.title }}</h2>
+      <div *ngIf="column.isEditMode">
+        <input [(ngModel)]="column.title" />
+        <button class="btn btn-primary" (click)="cancelEdit(column)">
+          Cancel
+        </button>
+        <button class="btn btn-primary" (click)="submitEdit(column)">
+          Submit
+        </button>
+      </div>
+
+      <app-task
+        (deleteCol)="deleteCol($event)"
         [boardId]="column.boardId"
         [columnId]="column['_id']"
       ></app-task>
