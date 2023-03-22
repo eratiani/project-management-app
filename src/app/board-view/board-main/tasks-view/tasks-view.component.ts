@@ -45,6 +45,12 @@ export class TasksViewComponent {
         event.previousIndex,
         event.currentIndex
       );
+      console.log(event.currentIndex);
+        const id = event.item.element.nativeElement.getAttribute("colId")
+        const board = this.columns.filter(e=>e._id===id)[0]
+console.log(board);
+        // this.boardService.editColumn
+      
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -52,31 +58,48 @@ export class TasksViewComponent {
         event.previousIndex,
         event.currentIndex
       );
+      
     }
   }
 
   async ngOnInit() {
     this.token = this.userService.getToken();
     const id = this.getBoardId();
-
+    
     const column = (await this.boardService.getCollumns(
       this.token,
       id
     )) as ColumnRecieved[];
     this.columns.push(...column);
   }
-  async addcolumn(title: { title: string }, i: number = 0) {
-    const user: { title: string; order: number } = {
-      title: title.title,
-      order: i,
-    };
-    const column = (await this.boardService.setCollumn(
-      this.token,
-      this.boardId,
-      user
-    )) as ColumnRecieved;
-
-    this.columns.push(column);
+  async addcolumn(title: { title: string }) {
+    try {
+      const id = this.getBoardId();
+      
+      const colNumber = await this.boardService.getCollumns(this.token,id) as ColumnRecieved[];
+      let order = -1;
+      if (colNumber[colNumber.length-1]?.order !== undefined) {
+        order = colNumber[colNumber.length-1].order
+         
+      } 
+      
+      const user: { title: string; order: number } = {
+        title: title.title,
+        order: order+=1,
+      };
+      
+      const column = (await this.boardService.setCollumn(
+        this.token,
+        this.boardId,
+        user
+      )) as ColumnRecieved;
+  
+      this.columns.push(column);
+    } catch (error) {
+      this.errorService.generateError(error)
+      
+    }
+   
   }
 
   getBoardId() {

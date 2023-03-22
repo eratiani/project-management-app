@@ -52,7 +52,7 @@
     class="example-list horizontal-scrollable mx-auto"
     (cdkDropListDropped)="drop($event)"
   >
-    <div class="example-container m-2" *ngFor="let column of columns" cdkDrag>
+    <div id="colId" [attr.colId]="column['_id']" class="example-container m-2" *ngFor="let column of columns" cdkDrag>
       <h2 (click)="editTitle(column)">{{ column.title }}</h2>
       <div *ngIf="column.isEditMode">
         <input [(ngModel)]="column.title" />
