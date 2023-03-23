@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environments';
 import { firstValueFrom } from 'rxjs';
 import { BoardSent } from './board-sent';
+import { TaskSent } from './task-sent';
 @Injectable({
   providedIn: 'root',
 })
@@ -141,6 +142,52 @@ export class BoardsRequestsService {
       throw error;
     }
   }
+  async addSetColumns(
+    token: { token: string },
+    body: { boardId: string; order: number,title:string }[]
+  ) {
+    try {
+
+      const request = await firstValueFrom(
+        this.http.post(
+          `${this.baseUrl}/columnsSet`,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async editSetColumns(
+    token: { token: string },
+    body: { _id: string; order: number }
+  ) {
+    try {
+
+      const request = await firstValueFrom(
+        this.http.patch(
+          `${this.baseUrl}/columnsSet`,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
   async setBoard(user: BoardSent, token: { token: string }) {
     try {
       const request = await firstValueFrom(
@@ -176,6 +223,30 @@ export class BoardsRequestsService {
     boardId: string,
     colId: string,
     body: { title: string; order: number }
+  ) {
+    try {
+      const request = await firstValueFrom(
+        this.http.post(
+          `${this.baseUrl}/boards/${boardId}/columns/${colId}/tasks`,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async createTask(
+    token: { token: string },
+    boardId: string,
+    colId: string,
+    body: any,
   ) {
     try {
       const request = await firstValueFrom(

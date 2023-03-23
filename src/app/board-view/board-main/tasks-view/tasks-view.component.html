@@ -67,7 +67,9 @@
       <app-task
         (deleteCol)="deleteCol($event)"
         [boardId]="column.boardId"
+        [attr.data-colId]="column['_id']"
         [columnId]="column['_id']"
+        id="board"
       ></app-task>
     </div>
   </div>

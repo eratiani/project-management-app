@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -10,6 +10,8 @@ import { BackendUserService } from 'src/app/shared/backend-user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { async } from 'rxjs';
 import { PopupFormComponent } from '../popup-form/popup-form.component';
+import { ActivatedRoute } from '@angular/router';
+import { TaskSent } from 'src/app/shared/task-sent';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
@@ -29,7 +31,9 @@ export class TaskComponent {
   constructor(
     private boardRequests: BoardsRequestsService,
     private userService: BackendUserService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
+    private element:ElementRef
   ) {
     this.token = this.userService.getToken();
   }
@@ -38,10 +42,10 @@ export class TaskComponent {
     const tasks = (await this.boardRequests.getTasksByBoardId(
       this.token,
       this.boardId
-    )) as TaskRecieved[];
+    ) as TaskRecieved[]).sort((a, b) => a.order - b.order);;
     this.task1.push(...tasks);
   }
-  drop(event: CdkDragDrop<TaskRecieved[]>) {
+  async drop(event: CdkDragDrop<TaskRecieved[]>) {
     console.log(event.previousContainer === event.container);
 
     if (event.previousContainer === event.container) {
@@ -50,16 +54,39 @@ export class TaskComponent {
         event.previousIndex,
         event.currentIndex
       );
-    } else {
-      console.log(event.previousIndex, event.currentIndex);
+      console.log(this.task1);
+      this.task1.forEach((e:TaskRecieved,i:number)=>{
+        const body:TaskSent = {title: e.title,
+        order: i+1,
+        description: e.description,
+        columnId: e.columnId,
+        userId: e.userId,
+        users: e.users}
+        
+        this.boardRequests.editTask(this.token,e.boardId,e.columnId,body,e._id)})
+      } else {
+        const task = event.container.data[event.currentIndex];
+        const columnId = event.container.element.nativeElement.closest("#board")?.getAttribute("data-colId") as string;
+        console.log(columnId);
+        
+        const body = {title: task.title,
+          order: task.order,
+          description: task.description,
+          userId: task.userId,
+          users: task.users}
+        await this.boardRequests.deleteTask(this.token,task.boardId,task.columnId,task._id);
+        await this.boardRequests.createTask(this.token,task.boardId,columnId,body)
+      this.task1.forEach((e,i)=>{
+        if(e._id===task._id) {
 
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-      console.log(event.previousContainer.data, event.container.data);
+          this.task1.splice(i, 1);
+        }
+      });
+        console.log(this.task1);
+        
+      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+      const el = this.element
+      console.log(this.element.nativeElement.querySelector(`[cdkDrag]`));
     }
   }
   openPopup() {
@@ -83,14 +110,7 @@ export class TaskComponent {
         const id = this.userService.userLocal._id;
         
         if (localId === null) return;
-        const user: {
-          title: string;
-          description: string;
-          users: string[];
-          order: number;
-          columnId: string,
-          userId: string;
-        } = {
+        const user: TaskSent= {
           title: data.title,
           description: data.description,
           users: [data.title],
@@ -111,8 +131,16 @@ export class TaskComponent {
   }
   async addTask(obj: { title: string; description: string }) {
     const id = this.userService.userLocal._id;
+    const idboard = this.getBoardId();
     const localId = localStorage.getItem('localUserId');
     if (localId === null) return;
+    const taskNumber = await this.boardRequests.getTasksByBoardId(this.token,idboard) as TaskRecieved[];
+      let order = 0;
+      
+      if (taskNumber[taskNumber.length-1]?.order !== undefined) {
+        order = taskNumber[taskNumber.length-1].order
+         
+      } 
     const user: {
       title: string;
       description: string;
@@ -123,10 +151,12 @@ export class TaskComponent {
       title: obj.title,
       description: obj.description,
       users: [obj.title],
-      order: 0,
+      order: order+=1,
       userId: id === '' ? localId : id,
     };
-
+    
+      
+      
     const board = await this.boardRequests.setTask(
       this.token,
       this.boardId,
@@ -163,6 +193,12 @@ export class TaskComponent {
     }
     catch(error) {
   }
+}
+getBoardId() {
+  const pathSegments = this.route.snapshot.url.map((segment) => segment.path); 
+  const lastSegment = pathSegments.pop() as string;
+  const lastDashIndex = lastSegment.lastIndexOf('-'); 
+  return (this.boardId = lastSegment.substring(lastDashIndex + 1));
 }
   deleteFormOpen(event: Event) {
     event.stopImmediatePropagation()

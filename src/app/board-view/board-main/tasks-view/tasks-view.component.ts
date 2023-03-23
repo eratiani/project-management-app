@@ -45,11 +45,11 @@ export class TasksViewComponent {
         event.previousIndex,
         event.currentIndex
       );
-      console.log(event.currentIndex);
+      console.log(this.columns);
         const id = event.item.element.nativeElement.getAttribute("colId")
-        const board = this.columns.filter(e=>e._id===id)[0]
-console.log(board);
-        // this.boardService.editColumn
+        this.columns.forEach((e:ColumnRecieved,i:number)=>{
+          const body:{title:string,order:number} = {title:e.title,order:i+1}
+          this.boardService.editColumn(this.token,e.boardId,e._id,body)})
       
     } else {
       transferArrayItem(
@@ -63,21 +63,28 @@ console.log(board);
   }
 
   async ngOnInit() {
-    this.token = this.userService.getToken();
-    const id = this.getBoardId();
+    try {
+      this.token = this.userService.getToken();
+      const id = this.getBoardId();
+      
+      const column:ColumnRecieved[] = (await this.boardService.getCollumns(
+        this.token,
+        id
+      )as ColumnRecieved[]).sort((a, b) => a.order - b.order);  
+        
     
-    const column = (await this.boardService.getCollumns(
-      this.token,
-      id
-    )) as ColumnRecieved[];
-    this.columns.push(...column);
+      this.columns.push(...column);
+    } catch (error) {
+      this.errorService.generateError(error)
+    }
+   
   }
   async addcolumn(title: { title: string }) {
     try {
       const id = this.getBoardId();
       
       const colNumber = await this.boardService.getCollumns(this.token,id) as ColumnRecieved[];
-      let order = -1;
+      let order = 0;
       if (colNumber[colNumber.length-1]?.order !== undefined) {
         order = colNumber[colNumber.length-1].order
          
