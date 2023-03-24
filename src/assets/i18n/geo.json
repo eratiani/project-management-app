@@ -29,5 +29,17 @@
   "Add": "დამატება",
   "Welcome": "მოგესალმებით",
   "update your account information": "შეცვალეთ ანგარიშის ინფორმაცია",
-  "update": "შშეცვალე"
+  "update": "შეცვალე",
+  "delete item?": "დარწმუნებული ხართ რომ წაშლა გინდათ?",
+  "cancel": "გაუქმება",
+  "delete": "წაშლა",
+  "log out": "გამოსვლა",
+  "submit": "დამატება",
+  "tasks Title": "დავალების სახელი",
+  "tasks description": "დავალების ინფორმაცია",
+  "add task": "დავალების დამატება",
+  "create column": "რიგის შექმნა",
+  "create board": "პროექტის შექმნა",
+  "404 - page not found": "გვერდი ნაპოვნი არ არის",
+  "<<< return to main page": "<<< მთავარ გვერდზე დაბრუნება"
 }

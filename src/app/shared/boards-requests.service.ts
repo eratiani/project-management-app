@@ -15,7 +15,6 @@ export class BoardsRequestsService {
   }
   async getBoards(token: { token: string }) {
     try {
-
       const request = await firstValueFrom(
         this.http.get(`${this.baseUrl}/boards`, {
           headers: {
@@ -31,7 +30,6 @@ export class BoardsRequestsService {
   }
   async deleteBoard(token: { token: string }, boardId: string) {
     try {
-
       const request = await firstValueFrom(
         this.http.delete(`${this.baseUrl}/boards/${boardId}`, {
           headers: {
@@ -60,7 +58,7 @@ export class BoardsRequestsService {
       throw error;
     }
   }
-  async getCollumn(token: { token: string }, boardId: string,colId:string) {
+  async getCollumn(token: { token: string }, boardId: string, colId: string) {
     try {
       const request = await firstValueFrom(
         this.http.get(`${this.baseUrl}/boards/${boardId}/columns/${colId}`, {
@@ -100,7 +98,6 @@ export class BoardsRequestsService {
     columnId: string
   ) {
     try {
-
       const request = await firstValueFrom(
         this.http.delete(
           `${this.baseUrl}/boards/${boardId}/columns/${columnId}`,
@@ -124,7 +121,6 @@ export class BoardsRequestsService {
     body: { title: string; order: number }
   ) {
     try {
-
       const request = await firstValueFrom(
         this.http.put(
           `${this.baseUrl}/boards/${boardId}/columns/${columnId}`,
@@ -144,21 +140,16 @@ export class BoardsRequestsService {
   }
   async addSetColumns(
     token: { token: string },
-    body: { boardId: string; order: number,title:string }[]
+    body: { boardId: string; order: number; title: string }[]
   ) {
     try {
-
       const request = await firstValueFrom(
-        this.http.post(
-          `${this.baseUrl}/columnsSet`,
-          body,
-          {
-            headers: {
-              Authorization: `Bearer ${token.token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        )
+        this.http.post(`${this.baseUrl}/columnsSet`, body, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+        })
       );
       return request;
     } catch (error) {
@@ -170,18 +161,13 @@ export class BoardsRequestsService {
     body: { _id: string; order: number }
   ) {
     try {
-
       const request = await firstValueFrom(
-        this.http.patch(
-          `${this.baseUrl}/columnsSet`,
-          body,
-          {
-            headers: {
-              Authorization: `Bearer ${token.token}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        )
+        this.http.patch(`${this.baseUrl}/columnsSet`, body, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+        })
       );
       return request;
     } catch (error) {
@@ -246,7 +232,7 @@ export class BoardsRequestsService {
     token: { token: string },
     boardId: string,
     colId: string,
-    body: any,
+    body: any
   ) {
     try {
       const request = await firstValueFrom(
@@ -266,38 +252,15 @@ export class BoardsRequestsService {
       throw error;
     }
   }
-  async getTask(
+  async getTaskSByColId(
     token: { token: string },
     boardId: string,
-    body: { title: string; order: number }
+    colId: string
   ) {
     try {
       const request = await firstValueFrom(
-        this.http.post(`${this.baseUrl}/boards/${boardId}/columns`, body, {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
-            'Content-Type': 'application/json',
-          },
-        })
-      );
-      return request;
-    } catch (error) {
-      throw error;
-    }
-  }
-  async editTask(
-    token: { token: string },
-    boardId: string,
-    columnId: string,
-    body: { title: string; order: number },
-    taskId:string
-  ) {
-    try {
-
-      const request = await firstValueFrom(
-        this.http.put(
-          `${this.baseUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
-          body,
+        this.http.get(
+          `${this.baseUrl}/boards/${boardId}/columns/${colId}/tasks`,
           {
             headers: {
               Authorization: `Bearer ${token.token}`,
@@ -311,14 +274,62 @@ export class BoardsRequestsService {
       throw error;
     }
   }
+  async getTaskById(
+    token: { token: string },
+    boardId: string,
+    colId: string,
+    taskId: string
+  ) {
+    try {
+      const request = await firstValueFrom(
+        this.http.get(
+          `${this.baseUrl}/boards/${boardId}/columns/${colId}/tasks/${taskId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async editTask(
+    token: { token: string },
+    boardId: string,
+    columnId: string,
+    body: TaskSent,
+    taskId: string
+  ) {
+    try {
+      const request = await firstValueFrom(
+        this.http.put(
+          `${this.baseUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      );
+
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
   async deleteTask(
     token: { token: string },
     boardId: string,
     columnId: string,
-    taskId:string
+    taskId: string
   ) {
     try {
-
       const request = await firstValueFrom(
         this.http.delete(
           `${this.baseUrl}/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,

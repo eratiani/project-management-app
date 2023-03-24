@@ -28,5 +28,16 @@
   "Add": "Add",
   "Welcome": "Welcome",
   "update your account information": "update your account information",
-  "update": "update"
+  "update": "update",
+  "delete item?": "delete item?",
+  "cancel": "cancel",
+  "submit": "submit",
+  "tasks Title": "tasks Title",
+  "tasks description": "tasks description",
+  "add task": "add task",
+  "delete": "delete",
+  "create column": "create column",
+  "create board": "create board",
+  "404 - page not found": "404 - page not found",
+  "<<< return to main page": "<<< return to main page"
 }

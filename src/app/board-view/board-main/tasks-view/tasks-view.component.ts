@@ -31,7 +31,7 @@ export class TasksViewComponent {
     private userService: BackendUserService,
     private boardService: BoardsRequestsService,
     private formBuilder: FormBuilder,
-    private errorService:ErrorHandllingService
+    private errorService: ErrorHandllingService
   ) {
     this.createcolumnForm = this.formBuilder.group({
       title: ['', [Validators.minLength(1), Validators.required]],
@@ -40,25 +40,20 @@ export class TasksViewComponent {
 
   drop(event: any) {
     if (event.previousContainer === event.container) {
+      event.event.stopImmediatePropagation();
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
-      console.log(this.columns);
-        const id = event.item.element.nativeElement.getAttribute("colId")
-        this.columns.forEach((e:ColumnRecieved,i:number)=>{
-          const body:{title:string,order:number} = {title:e.title,order:i+1}
-          this.boardService.editColumn(this.token,e.boardId,e._id,body)})
-      
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-      
+      const id = event.item.element.nativeElement.getAttribute('colId');
+      this.columns.forEach((e: ColumnRecieved, i: number) => {
+        const body: { title: string; order: number } = {
+          title: e.title,
+          order: i + 1,
+        };
+        this.boardService.editColumn(this.token, e.boardId, e._id, body);
+      });
     }
   }
 
@@ -66,53 +61,53 @@ export class TasksViewComponent {
     try {
       this.token = this.userService.getToken();
       const id = this.getBoardId();
-      
-      const column:ColumnRecieved[] = (await this.boardService.getCollumns(
-        this.token,
-        id
-      )as ColumnRecieved[]).sort((a, b) => a.order - b.order);  
-        
-    
+
+      const column: ColumnRecieved[] = (
+        (await this.boardService.getCollumns(
+          this.token,
+          id
+        )) as ColumnRecieved[]
+      ).sort((a, b) => a.order - b.order);
+
       this.columns.push(...column);
     } catch (error) {
-      this.errorService.generateError(error)
+      this.errorService.generateError(error);
     }
-   
   }
   async addcolumn(title: { title: string }) {
     try {
       const id = this.getBoardId();
-      
-      const colNumber = await this.boardService.getCollumns(this.token,id) as ColumnRecieved[];
+
+      const colNumber = (await this.boardService.getCollumns(
+        this.token,
+        id
+      )) as ColumnRecieved[];
       let order = 0;
-      if (colNumber[colNumber.length-1]?.order !== undefined) {
-        order = colNumber[colNumber.length-1].order
-         
-      } 
-      
+      if (colNumber[colNumber.length - 1]?.order !== undefined) {
+        order = colNumber[colNumber.length - 1].order;
+      }
+
       const user: { title: string; order: number } = {
         title: title.title,
-        order: order+=1,
+        order: (order += 1),
       };
-      
+
       const column = (await this.boardService.setCollumn(
         this.token,
         this.boardId,
         user
       )) as ColumnRecieved;
-  
+
       this.columns.push(column);
     } catch (error) {
-      this.errorService.generateError(error)
-      
+      this.errorService.generateError(error);
     }
-   
   }
 
   getBoardId() {
-    const pathSegments = this.route.snapshot.url.map((segment) => segment.path); 
+    const pathSegments = this.route.snapshot.url.map((segment) => segment.path);
     const lastSegment = pathSegments.pop() as string;
-    const lastDashIndex = lastSegment.lastIndexOf('-'); 
+    const lastDashIndex = lastSegment.lastIndexOf('-');
     return (this.boardId = lastSegment.substring(lastDashIndex + 1));
   }
   cancel(event: boolean) {
@@ -131,7 +126,6 @@ export class TasksViewComponent {
     try {
       const boardId = this.boardId;
       const colId = this.colId;
-      
 
       if (!event) return;
       const deleted = this.boardService.deleteColumn(
@@ -146,7 +140,7 @@ export class TasksViewComponent {
       });
       this.delete = !event;
     } catch (error) {
-      this.errorService.generateError(error)
+      this.errorService.generateError(error);
     }
   }
   editTitle(column: ColumnRecieved) {

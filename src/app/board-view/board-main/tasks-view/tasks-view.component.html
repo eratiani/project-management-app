@@ -1,7 +1,15 @@
 <div class="d-flex flex-column justify-content-between">
   <div class="d-flex justify-content-between">
     <app-header></app-header>
+
     <div>
+      <button
+        class="btn btn-primary btn-block m-4"
+        class="btn btn-primary"
+        [routerLink]="['/board/main']"
+      >
+        {{ "\<\<\< return to main page" | translate }}
+      </button>
       <app-log-out></app-log-out>
       <app-user-update></app-user-update>
     </div>
@@ -30,13 +38,13 @@
           [disabled]="!createcolumnForm.valid"
           class="btn btn-primary"
         >
-          create column
+          {{ "create column" | translate }}
         </button>
       </div>
     </form>
   </div>
-  <div class="container ">
-    <div class="col-4 ">
+  <div class="container">
+    <div class="col-4">
       <app-form-delete
         *ngIf="delete"
         (canCelEv)="cancel($event)"
@@ -52,15 +60,21 @@
     class="example-list horizontal-scrollable mx-auto"
     (cdkDropListDropped)="drop($event)"
   >
-    <div id="colId" [attr.colId]="column['_id']" class="example-container m-2" *ngFor="let column of columns" cdkDrag>
+    <div
+      id="colId"
+      [attr.colId]="column['_id']"
+      class="example-container m-2"
+      *ngFor="let column of columns"
+      cdkDrag
+    >
       <h2 (click)="editTitle(column)">{{ column.title }}</h2>
       <div *ngIf="column.isEditMode">
         <input [(ngModel)]="column.title" />
         <button class="btn btn-primary" (click)="cancelEdit(column)">
-          Cancel
+          {{ "cancel" | translate }}
         </button>
         <button class="btn btn-primary" (click)="submitEdit(column)">
-          Submit
+          {{ "submit" | translate }}
         </button>
       </div>
 

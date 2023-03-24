@@ -17,6 +17,7 @@ import { PopupFormComponent } from './board-main/tasks-view/popup-form/popup-for
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormDeleteComponent } from './board-main/form-delete/form-delete.component';
+import { SortPipe } from '../shared/sort';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -28,6 +29,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     GenerateTaskFormComponent,
     PopupFormComponent,
     FormDeleteComponent,
+    SortPipe,
   ],
   imports: [
     CommonModule,
@@ -42,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
     MainPageModule,
+
     UserAuthenticationModule,
     RouterModule,
     AppRoutingModule,

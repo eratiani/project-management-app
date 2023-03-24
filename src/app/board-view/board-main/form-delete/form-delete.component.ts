@@ -3,16 +3,16 @@ import { Component, EventEmitter, Output } from '@angular/core';
 @Component({
   selector: 'app-form-delete',
   templateUrl: './form-delete.component.html',
-  styleUrls: ['./form-delete.component.css']
+  styleUrls: ['./form-delete.component.css'],
 })
 export class FormDeleteComponent {
-  @Output() canCelEv = new EventEmitter<any>()
-  @Output() delEv = new EventEmitter<any>()
+  @Output() canCelEv = new EventEmitter<any>();
+  @Output() delEv = new EventEmitter<any>();
   constructor() {}
-  cancel(){
+  cancel() {
     return this.canCelEv.emit(true);
   }
-  delete(){
+  delete() {
     return this.delEv.emit(true);
   }
 }

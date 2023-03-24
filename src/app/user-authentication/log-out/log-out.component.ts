@@ -16,7 +16,7 @@ export class LogOutComponent {
   ) {}
   logOut() {
     try {
-      localStorage.removeItem('logedIn')
+      localStorage.removeItem('logedIn');
       this.userService.logOutUser();
       this.router.navigate(['Home']);
     } catch (error) {

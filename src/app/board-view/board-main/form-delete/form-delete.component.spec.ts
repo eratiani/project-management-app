@@ -8,9 +8,8 @@ describe('FormDeleteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormDeleteComponent ]
-    })
-    .compileComponents();
+      declarations: [FormDeleteComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FormDeleteComponent);
     component = fixture.componentInstance;

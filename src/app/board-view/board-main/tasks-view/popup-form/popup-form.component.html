@@ -25,17 +25,20 @@
         "tasks description" | translate
       }}</label>
     </div>
-    <div class="col-7 d-flex align-items-center justify-content-center flex-column">
+    <div
+      class="col-7 d-flex align-items-center justify-content-center flex-column"
+    >
       <button
         type="submit"
         class="btn btn-primary btn-block m-4"
         [disabled]="!createTaskForm.valid"
         class="btn btn-primary"
       >
-       submit
+        {{ "submit" | translate }}
       </button>
-      <a class="btn btn-primary btn-block m-4" (click)="close($event)" >cancel</a>
-     
+      <a class="btn btn-primary btn-block m-4" (click)="close($event)">{{
+        "cancel" | translate
+      }}</a>
     </div>
   </form>
 </div>
