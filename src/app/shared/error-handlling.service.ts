@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 export class ErrorHandllingService {
   generateError(err: any) {
     const container = `
-    <div class="bg-warning" tabindex="-1" role="dialog">
+    <div class="bg-warning container_error" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

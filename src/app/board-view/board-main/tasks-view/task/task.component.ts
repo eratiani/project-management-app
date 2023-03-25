@@ -18,6 +18,7 @@ import { async } from 'rxjs';
 import { PopupFormComponent } from '../popup-form/popup-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { TaskSent } from 'src/app/shared/task-sent';
+import { ErrorHandllingService } from 'src/app/shared/error-handlling.service';
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
@@ -39,7 +40,8 @@ export class TaskComponent {
     private userService: BackendUserService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private element: ElementRef
+    private element: ElementRef,
+    private errorService:ErrorHandllingService
   ) {
     this.token = this.userService.getToken();
   }
@@ -86,7 +88,8 @@ export class TaskComponent {
         event.previousIndex,
         event.currentIndex
       );
-      const columnId = event.container.element.nativeElement
+      try {
+        const columnId = event.container.element.nativeElement
         .closest('#board')
         ?.getAttribute('data-colId') as string;
       this.task1.forEach(async (e: TaskRecieved, i: number) => {
@@ -106,6 +109,10 @@ export class TaskComponent {
           e._id
         );
       });
+      } catch (error) {
+        this.errorService.generateError(error)
+      }
+      
     }
   }
   openPopup() {
@@ -117,7 +124,8 @@ export class TaskComponent {
     );
   }
   openPopupTask(e: Event) {
-    const dialogRef = this.dialog.open(PopupFormComponent);
+    try {
+      const dialogRef = this.dialog.open(PopupFormComponent);
     dialogRef.componentInstance.formSubmit.subscribe(
       async (data: { title: string; description: string }) => {
         if (e.target === null) return;
@@ -163,43 +171,52 @@ export class TaskComponent {
         );
       }
     );
+    } catch (error) {
+      this.errorService.generateError(error)
+    }
+    
   }
   async addTask(obj: { title: string; description: string }) {
-    const id = this.userService.userLocal._id;
-    const idboard = this.getBoardId();
-    const localId = localStorage.getItem('localUserId');
-    if (localId === null) return;
-    const taskNumber = (await this.boardRequests.getTasksByBoardId(
-      this.token,
-      idboard
-    )) as TaskRecieved[];
-    let order = 0;
-
-    if (taskNumber[taskNumber.length - 1]?.order !== undefined) {
-      order = taskNumber[taskNumber.length - 1].order;
+    try {
+      const id = this.userService.userLocal._id;
+      const idboard = this.getBoardId();
+      const localId = localStorage.getItem('localUserId');
+      if (localId === null) return;
+      const taskNumber = (await this.boardRequests.getTasksByBoardId(
+        this.token,
+        idboard
+      )) as TaskRecieved[];
+      let order = 0;
+  
+      if (taskNumber[taskNumber.length - 1]?.order !== undefined) {
+        order = taskNumber[taskNumber.length - 1].order;
+      }
+      const user: {
+        title: string;
+        description: string;
+        users: string[];
+        order: number;
+        userId: string;
+      } = {
+        title: obj.title,
+        description: obj.description,
+        users: [obj.title],
+        order: (order += 1),
+        userId: id === '' ? localId : id,
+      };
+  
+      const board = await this.boardRequests.setTask(
+        this.token,
+        this.boardId,
+        this.columnId,
+        user
+      );
+  
+      this.task1.push(board as TaskRecieved);
+    } catch (error) {
+      this.errorService.generateError(error)
     }
-    const user: {
-      title: string;
-      description: string;
-      users: string[];
-      order: number;
-      userId: string;
-    } = {
-      title: obj.title,
-      description: obj.description,
-      users: [obj.title],
-      order: (order += 1),
-      userId: id === '' ? localId : id,
-    };
-
-    const board = await this.boardRequests.setTask(
-      this.token,
-      this.boardId,
-      this.columnId,
-      user
-    );
-
-    this.task1.push(board as TaskRecieved);
+   
   }
   deleteForm(event: Event) {
     return this.deleteCol.emit(event);
@@ -225,7 +242,9 @@ export class TaskComponent {
           this.task1.splice(i, 1);
         }
       });
-    } catch (error) {}
+    } catch (error) {
+      this.errorService.generateError(error)
+    }
   }
   getBoardId() {
     const pathSegments = this.route.snapshot.url.map((segment) => segment.path);

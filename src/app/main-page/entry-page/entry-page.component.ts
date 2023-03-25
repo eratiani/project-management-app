@@ -38,7 +38,7 @@ export class EntryPageComponent {
     } catch (error) {
       /// error handler introduces bug for this particular scenario thats why i use console log
       // this.errorHandler.generateError(error)
-      console.log(error);
+      // console.log(error);
     }
   }
 }

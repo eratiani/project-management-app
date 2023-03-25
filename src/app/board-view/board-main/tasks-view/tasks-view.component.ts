@@ -44,15 +44,19 @@ export class TasksViewComponent {
     });
   }
   async addsearchedTasks(input: { search: string }) {
-    const searchRes = (await this.boardService.getTasksSet(
-      this.token,
-      input
-    )) as Array<TaskRecieved>;
-    console.log(searchRes);
-    this.searchRes.splice(0, this.searchRes.length);
-    this.searchRes.push(...searchRes);
+    try {
+      const searchRes = (await this.boardService.getTasksSet(
+        this.token,
+        input
+      )) as Array<TaskRecieved>;
+      this.searchRes.splice(0, this.searchRes.length);
+      this.searchRes.push(...searchRes);
+    } catch (error) {
+      this.errorService.generateError(error)
+    }
+   
   }
-  drop(event: any) {
+  drop(event: CdkDragDrop<ColumnRecieved[]>) {
     if (event.previousContainer === event.container) {
       event.event.stopImmediatePropagation();
       moveItemInArray(
@@ -60,7 +64,8 @@ export class TasksViewComponent {
         event.previousIndex,
         event.currentIndex
       );
-      const id = event.item.element.nativeElement.getAttribute('colId');
+      try {
+        const id = event.item.element.nativeElement.getAttribute('colId');
       this.columns.forEach((e: ColumnRecieved, i: number) => {
         const body: { title: string; order: number } = {
           title: e.title,
@@ -68,6 +73,10 @@ export class TasksViewComponent {
         };
         this.boardService.editColumn(this.token, e.boardId, e._id, body);
       });
+      } catch (error) {
+        this.errorService.generateError(error)
+      }
+      
     }
   }
 
@@ -181,6 +190,8 @@ export class TasksViewComponent {
         colId,
         body
       );
-    } catch (error) {}
+    } catch (error) {
+      this.errorService.generateError(error)
+    }
   }
 }

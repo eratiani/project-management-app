@@ -1,4 +1,6 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.margin{
+  margin-right: 5px;
+}
 section {
   display: table;
 }

@@ -1,11 +1,11 @@
 <div class="container positioning">
   <section class="d-flex flex-column">
     <div class="example-label">{{ "delete item?" | translate }}</div>
-    <div class="example-button-row">
-      <button (click)="cancel()" mat-button color="primary">
+    <div class="example-button-row m-4">
+      <button (click)="cancel()"  class=" btn btn-warning margin">
         {{ "cancel" | translate }}
       </button>
-      <button (click)="delete()" mat-button color="warn">
+      <button (click)="delete()"  class="btn  btn-danger">
         {{ "delete" | translate }}
       </button>
     </div>

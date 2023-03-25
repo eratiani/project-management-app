@@ -39,8 +39,13 @@ export class BoardMainComponent {
     this.currUser = userlogIn;
   }
   async ngOnInit() {
-    const board = (await this.getBoards(this.token)) as BoardRecieved[];
-    this.boards.push(...board);
+    try {
+      const board = (await this.getBoards(this.token)) as BoardRecieved[];
+      this.boards.push(...board);
+    } catch (error) {
+      this.errorService.generateError(error)
+    }
+   
   }
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.boards, event.previousIndex, event.currentIndex);
