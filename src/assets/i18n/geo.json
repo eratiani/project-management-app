@@ -41,5 +41,7 @@
   "create column": "რიგის შექმნა",
   "create board": "პროექტის შექმნა",
   "404 - page not found": "გვერდი ნაპოვნი არ არის",
-  "<<< return to main page": "<<< მთავარ გვერდზე დაბრუნება"
+  "<<< return to main page": "<<< მთავარ გვერდზე დაბრუნება",
+  "search input": "საძიებო სიტყვა",
+  "search": "ძებნა"
 }

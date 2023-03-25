@@ -14,8 +14,41 @@
       <app-user-update></app-user-update>
     </div>
   </div>
-
   <div class="d-flex justify-content-center">
+    <form
+      [formGroup]="searchTaskForm"
+      (ngSubmit)="addsearchedTasks(searchTaskForm.value)"
+    >
+      <div class="form-outline mb-4 col-8">
+        <input
+          type="text"
+          id="form2Example1"
+          class="form-control"
+          formControlName="search"
+        />
+        <label class="form-label" for="form2Example1">{{
+          "search input" | translate
+        }}</label>
+      </div>
+      <div class="col-7">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block m-4"
+          [disabled]="!searchTaskForm.valid"
+          class="btn btn-primary"
+        >
+          {{ "search" | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="container">
+    <app-search-result
+      *ngFor="let task of searchRes"
+      [task]="task"
+    ></app-search-result>
+  </div>
+  <div class="d-flex justify-content-center m-4">
     <form
       [formGroup]="createcolumnForm"
       (ngSubmit)="addcolumn(createcolumnForm.value)"

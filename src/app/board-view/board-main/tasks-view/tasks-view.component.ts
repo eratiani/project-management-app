@@ -11,6 +11,7 @@ import { BackendUserService } from 'src/app/shared/backend-user.service';
 import { ColumnRecieved } from 'src/app/shared/column-recieved';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ErrorHandllingService } from 'src/app/shared/error-handlling.service';
+import { TaskRecieved } from 'src/app/shared/task-recieved';
 @Component({
   selector: 'app-tasks-view',
   templateUrl: './tasks-view.component.html',
@@ -25,6 +26,8 @@ export class TasksViewComponent {
   boardId: string = '';
   colId: string = '';
   createcolumnForm: FormGroup;
+  searchTaskForm: FormGroup;
+  searchRes: Array<TaskRecieved> = [];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -36,8 +39,19 @@ export class TasksViewComponent {
     this.createcolumnForm = this.formBuilder.group({
       title: ['', [Validators.minLength(1), Validators.required]],
     });
+    this.searchTaskForm = this.formBuilder.group({
+      search: ['', [Validators.minLength(1), Validators.required]],
+    });
   }
-
+  async addsearchedTasks(input: { search: string }) {
+    const searchRes = (await this.boardService.getTasksSet(
+      this.token,
+      input
+    )) as Array<TaskRecieved>;
+    console.log(searchRes);
+    this.searchRes.splice(0, this.searchRes.length);
+    this.searchRes.push(...searchRes);
+  }
   drop(event: any) {
     if (event.previousContainer === event.container) {
       event.event.stopImmediatePropagation();

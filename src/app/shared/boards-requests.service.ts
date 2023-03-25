@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environments';
 import { firstValueFrom } from 'rxjs';
@@ -340,6 +340,35 @@ export class BoardsRequestsService {
             },
           }
         )
+      );
+      return request;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getTasksSet(
+    token: { token: string },
+    obj: { userId?: string; ids?: string[]; search?: string }
+  ) {
+    try {
+      let params = new HttpParams();
+      if (obj.userId) {
+        params = params.set('userId', obj.userId);
+      }
+      if (obj.ids && obj.ids.length > 0) {
+        params = params.set('ids', obj.ids.join(','));
+      }
+      if (obj.search) {
+        params = params.set('search', obj.search);
+      }
+      const request = await firstValueFrom(
+        this.http.get(`${this.baseUrl}/tasksSet`, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+            'Content-Type': 'application/json',
+          },
+          params,
+        })
       );
       return request;
     } catch (error) {

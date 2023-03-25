@@ -18,6 +18,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormDeleteComponent } from './board-main/form-delete/form-delete.component';
 import { SortPipe } from '../shared/sort';
+import { SearchResultComponent } from './board-main/tasks-view/search-result/search-result.component';
+import { MatCardModule } from '@angular/material/card';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -30,6 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PopupFormComponent,
     FormDeleteComponent,
     SortPipe,
+    SearchResultComponent,
   ],
   imports: [
     CommonModule,
@@ -44,7 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
     MainPageModule,
-
+    MatCardModule,
     UserAuthenticationModule,
     RouterModule,
     AppRoutingModule,
