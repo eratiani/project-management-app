@@ -10,6 +10,7 @@ import { MainPageModule } from './main-page/main-page.module';
 import { UserAuthenticationModule } from './user-authentication/user-authentication.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { APP_BASE_HREF } from '@angular/common';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -33,7 +34,8 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
   ],
-  providers: [],
+  providers: [{ provide: APP_BASE_HREF, useValue: '/project-management-app' }],
+
   bootstrap: [AppComponent],
   exports: [],
 })
