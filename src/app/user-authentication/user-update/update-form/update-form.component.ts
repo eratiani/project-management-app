@@ -29,7 +29,7 @@ export class UpdateFormComponent {
       password: ['', [Validators.minLength(8), Validators.required]],
     });
   }
-
+ 
   async update(user: UserSent) {
     try {
       const result = await this.userService.updateUser(

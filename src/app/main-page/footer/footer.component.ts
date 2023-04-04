@@ -12,3 +12,4 @@ export class FooterComponent {
   rssAppLink = 'https://app.rs.school/';
   rssLogo = '../../assets/rs-school.png';
 }
+ 

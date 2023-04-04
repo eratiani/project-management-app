@@ -18,5 +18,5 @@ describe('UserMenuComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  }); 
 });

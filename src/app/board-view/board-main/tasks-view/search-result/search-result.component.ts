@@ -8,3 +8,4 @@ import { Component, Input } from '@angular/core';
 export class SearchResultComponent {
   @Input() task: any;
 }
+ 

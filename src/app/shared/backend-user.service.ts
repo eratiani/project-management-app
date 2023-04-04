@@ -84,7 +84,7 @@ export class BackendUserService {
     } catch (error) {
       throw error;
     }
-  }
+  } 
 
   async updateUser(user: UserSent, token: { token: string }, id: string) {
     try {

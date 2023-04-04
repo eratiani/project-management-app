@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'update',
     component: UpdateFormComponent,
     canActivate: [BoardMainGuard],
-  },
+  }, 
   { path: 'Home/register', component: RegisterComponent },
   {
     path: 'board/main',

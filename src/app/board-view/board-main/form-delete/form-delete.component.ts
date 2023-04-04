@@ -14,5 +14,5 @@ export class FormDeleteComponent {
   }
   delete() {
     return this.delEv.emit(true);
-  }
+  } 
 }

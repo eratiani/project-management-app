@@ -11,7 +11,7 @@
         "pattern": "$tsc",
         "background": {
           "activeOnStart": true,
-          "beginsPattern": {
+          "beginsPattern": { 
             "regexp": "(.*?)"
           },
           "endsPattern": {

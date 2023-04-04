@@ -209,7 +209,7 @@ export class BoardsRequestsService {
     boardId: string,
     colId: string,
     body: { title: string; order: number }
-  ) {
+  ) { 
     try {
       const request = await firstValueFrom(
         this.http.post(

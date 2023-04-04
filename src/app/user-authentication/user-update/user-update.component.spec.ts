@@ -19,4 +19,4 @@ describe('UserUpdateComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+}); 

@@ -13,4 +13,4 @@ export class GenerateTaskFormComponent {
   openPopup() {
     const dialogRef = this.dialog.open(PopupFormComponent);
   }
-}
+} 

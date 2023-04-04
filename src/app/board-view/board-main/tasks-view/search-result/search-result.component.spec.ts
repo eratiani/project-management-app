@@ -19,5 +19,5 @@ describe('SearchResultComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  }); 
 });

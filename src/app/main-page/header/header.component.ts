@@ -18,3 +18,4 @@ export class HeaderComponent {
     this.translateService.use(lang.value);
   }
 }
+ 

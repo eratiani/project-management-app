@@ -21,7 +21,7 @@ export class RegisterComponent {
     login: '',
     password: '',
   };
-  currUser: UserReceived = {
+  currUser: UserReceived = { 
     login: '',
     name: '',
     _id: '',

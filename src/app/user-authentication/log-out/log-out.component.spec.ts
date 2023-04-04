@@ -19,4 +19,4 @@ describe('LogOutComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+}); 

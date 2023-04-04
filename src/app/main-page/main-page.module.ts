@@ -40,3 +40,4 @@ export function HttpLoaderFactory(http: HttpClient) {
   exports: [HeaderComponent],
 })
 export class MainPageModule {}
+ 

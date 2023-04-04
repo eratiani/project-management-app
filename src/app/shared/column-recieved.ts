@@ -5,3 +5,4 @@ export interface ColumnRecieved {
   boardId: string;
   isEditMode?: boolean;
 }
+ 

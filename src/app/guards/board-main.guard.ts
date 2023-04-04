@@ -39,5 +39,5 @@ export class BoardMainGuard implements CanActivate {
       }
     }
     return this.authService.isLoggedIn();
-  }
+  } 
 }

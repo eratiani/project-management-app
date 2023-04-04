@@ -19,7 +19,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [AppComponent],
   imports: [
     MatButtonModule,
-    MatDialogModule,
+    MatDialogModule, 
     BrowserModule,
     MainPageModule,
     AppRoutingModule,

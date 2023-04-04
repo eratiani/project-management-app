@@ -40,7 +40,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DragDropModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
-      loader: {
+      loader: { 
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],

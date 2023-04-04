@@ -20,3 +20,4 @@ describe('EntryPageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ 

@@ -193,5 +193,5 @@ export class TasksViewComponent {
     } catch (error) {
       this.errorService.generateError(error)
     }
-  }
+  } 
 }

@@ -40,3 +40,4 @@ export class ErrorHandllingService {
     window.location.reload();
   }
 }
+ 

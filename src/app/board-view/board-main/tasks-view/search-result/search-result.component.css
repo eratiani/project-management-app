@@ -45,7 +45,7 @@
   }
   
   .example-box:last-child {
-    border: none;
+    border: none; 
   }
   
   .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {

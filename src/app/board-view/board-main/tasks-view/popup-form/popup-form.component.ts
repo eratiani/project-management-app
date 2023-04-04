@@ -19,7 +19,7 @@ export class PopupFormComponent {
     });
   }
   close(e:Event) {
-    e.stopPropagation()
+    e.stopPropagation() 
     this.dialogRef.close();
   }
   onSubmit(value: { title: string; description: string }) {

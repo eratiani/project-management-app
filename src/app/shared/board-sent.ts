@@ -3,3 +3,4 @@ export interface BoardSent {
   owner: string;
   users: string[];
 }
+ 

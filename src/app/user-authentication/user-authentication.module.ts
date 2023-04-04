@@ -15,7 +15,7 @@ import { AppRoutingModule } from '../app-routing.module';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
-
+ 
 @NgModule({
   declarations: [
     LogInComponent,

@@ -5,3 +5,4 @@ export interface BoardRecieved {
   users: string[];
   _id: string;
 }
+ 

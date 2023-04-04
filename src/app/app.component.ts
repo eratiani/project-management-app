@@ -12,3 +12,4 @@ export class AppComponent {
     this.translateService.use(localStorage.getItem('lang') || 'en');
   }
 }
+ 

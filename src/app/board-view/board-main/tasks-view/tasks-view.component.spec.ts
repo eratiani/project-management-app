@@ -19,4 +19,4 @@ describe('TasksViewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+}); 

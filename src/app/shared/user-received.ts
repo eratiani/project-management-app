@@ -4,3 +4,4 @@ export interface UserReceived {
   name: string;
   _id: string;
 }
+ 
